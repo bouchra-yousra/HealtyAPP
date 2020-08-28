@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Healt Center</string>
+    <string name="app_name">Health Center</string>
 
     <string name="username">username</string>
     <string name="password">password</string>
@@ -9,7 +9,7 @@
     <string name="homelayout3_1">Your Activities</string>
     <string name="homelayout4_1">Organize your time</string>
     <string name="home">Welcome </string>
-    <string name="profile">Your profil </string>
+    <string name="profile">Your profile </string>
 
     <string name="signupintro">Create your account</string>
     <string name="signup">Sign up</string>

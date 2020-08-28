@@ -112,7 +112,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Prevent burn 4out"
+                        android:text="Prevent burn out"
                         android:textSize="24sp" />
 
                     <TextView

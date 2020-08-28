@@ -175,7 +175,7 @@
                     android:fontFamily="@font/nunito"
 
                     android:layout_height="wrap_content"
-                    android:text="You havent an account ?"
+                    android:text="Not a user ?"
                     />
 
                 <TextView
@@ -183,7 +183,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
-                    android:text="Creat Account"
+                    android:text="Signup"
                     android:textAlignment="center"
                     android:textColor="@color/txt2"
                     android:textStyle="bold" />

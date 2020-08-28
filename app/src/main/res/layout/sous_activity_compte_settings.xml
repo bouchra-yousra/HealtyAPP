@@ -29,7 +29,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:fontFamily="@font/nunito"
-                    android:text="Mon Compte"
+                    android:text="My Account"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="25sp" />
@@ -161,7 +161,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="4"
-                                    android:text="Poid" />
+                                    android:text="Weight" />
 
                                 <EditText
                                     android:id="@+id/editTextPoid"
@@ -184,7 +184,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="4"
-                                    android:text="Taille" />
+                                    android:text="Height" />
 
                                 <EditText
                                     android:id="@+id/editTextTaille"
@@ -208,7 +208,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:layout_weight="4"
-                                    android:text="gender" />
+                                    android:text="Gender" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"

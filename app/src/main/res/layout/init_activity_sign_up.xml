@@ -70,7 +70,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:hint="Height (dm)"
+                            android:hint="Height (cm)"
                             android:inputType="text|numberDecimal" />
                     </com.google.android.material.textfield.TextInputLayout>
 

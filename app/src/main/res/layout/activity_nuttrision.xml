@@ -371,7 +371,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/nunito"
-                            android:text="Categorie : "
+                            android:text="Category : "
                             android:textColor="@color/black" />
 
                         <LinearLayout
@@ -647,7 +647,7 @@
                                 android:layout_marginBottom="1dp"
                                 android:background="#FFFFFF"
                                 android:fontFamily="@font/nunito"
-                                android:hint="Quantite en Gramme"
+                                android:hint="Quantity in Gramme"
                                 android:inputType="number"
                                 android:padding="5dp"
                                 android:textColor="@color/black"

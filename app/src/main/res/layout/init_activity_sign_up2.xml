@@ -39,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"
-                    android:text="Complet your account creation"
+                    android:text="Complete your signup"
                     android:textSize="25sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -69,7 +69,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="Last namee"
+                        android:hint="Last name"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -123,7 +123,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="Year"
+                        android:hint="Birth Year"
                         android:inputType="numberDecimal" />
                 </com.google.android.material.textfield.TextInputLayout>
 
