@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_activityphysic"
+        android:icon="@drawable/ic_baseline_fitness_center_24"
+        android:title="@string/title_actph" />
+
+    <item
+        android:id="@+id/navigation_activitymorale"
+        android:icon="@drawable/ic_baseline_filter_vintage_24"
+        android:title="@string/title_actmrl" />
+
+
+    <item
+        android:id="@+id/navigation_nuttrision"
+        android:icon="@drawable/ic_baseline_emoji_food_beverage_24"
+        android:title="@string/title_nuttrision" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="@string/title_profile" />
+
+</menu>

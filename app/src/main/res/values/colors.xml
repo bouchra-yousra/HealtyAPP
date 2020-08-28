@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#45BCA5</color>
+    <color name="colorPrimaryDark">#0D9589</color>
+    <color name="colorAccent">#FFC107</color>
+    <color name="colorAccent2">#8BC34A</color>
+    <color name="colorAccent3">#009688</color>
+    <color name="colorAccent4">#82BFB3</color>
+
+    <color name="layou1">#49978B</color>
+    <color name="layout2">#FFFFFF</color>
+    <color name="layout3">#7E26A88F</color>
+    <color name="Element1">@color/Element2</color>
+    <color name="Element2">#FFFFFF</color>
+
+    <color name="txt1">#FEFFFF</color>
+    <color name="txt2">#172C2A</color>
+    <color name="txt3">#00AA9A</color>
+
+
+    <color name="colorx1">#6200EE</color>
+    <color name="colorx2">#3700B3</color>
+    <color name="colorx3">#03DAC5</color>
+
+    <color name="bleu_gris_fonçe">#003041</color>
+    <color name="grey">#424F60</color>
+    <color name="ivisibleBlack">#A5000000</color>
+>
+
+    //palate1
+    <color name="c1">#6C8CBF</color>
+    <color name="c2">#E2D36B</color>
+    <color name="c3">#BAC94A</color>
+    <color name="c4">#96D7C6</color>
+    <color name="c5">#5AA7A7</color>
+
+    <color name="layout_color0">#FFFCFC</color>
+    <color name="layout_color1">#FFFDF0</color>
+
+    <color name="invisible_wight">#41FFFFFF</color>
+
+    <color name="black">#02272B</color>
+    <color name="white">#FFFFFF</color>
+    <color name="bleu_green">#90DAC1</color>
+</resources>

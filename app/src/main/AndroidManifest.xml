@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.healtyapp">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".vue.sous_activities.AfterExo"></activity>
+        <activity android:name=".Tests.Test" />
+        <activity android:name=".vue.sous_activities.SelectObjective" />
+        <activity android:name=".ui.profile.CalendarActivity" />
+        <activity android:name=".ui.activitymorale.Historique_cognitive" />
+        <activity android:name=".systeme.Systeme" />
+        <activity android:name=".ui.profile.CompteSettings" />
+        <activity android:name=".vue.sous_activities.MainForgetpw" />
+        <activity android:name=".ui.activitymorale.MainRelaxTips" />
+        <activity android:name=".ui.activitymorale.MainBreathing" />
+        <activity android:name=".ui.activitymorale.MainActivityM" />
+        <activity android:name=".systeme.MainAddActM" />
+        <activity android:name=".ui.activitymorale.MainYoga" />
+        <activity android:name=".ui.activitymorale.MainReduceStress" />
+        <activity android:name=".ui.activitymorale.MainPause" />
+        <activity android:name=".ui.activitymorale.MainTomate" />
+        <activity android:name=".ui.activityphysic.HistoryUserPh" />
+        <activity
+            android:name=".ui.activityphysic.MainChrono"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".dialogue.TestInflate" />
+        <activity android:name=".systeme.MainAddActPh" />
+        <activity android:name=".ui.nuttrision.NutritionHistoryActivity" />
+        <activity android:name=".vue.sous_activities.MainUserChooseActivityLevel" />
+        <activity
+            android:name=".vue.center_activities.MainMyMenu"
+            android:label="@string/title_activity_main_my_menu" />
+        <activity
+            android:name=".vue.app_initialisation.MainWelcome"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".vue.app_initialisation.SignUpActivity2"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".vue.app_initialisation.SignUpActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".vue.app_initialisation.LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".systeme.MainAdd" />
+        <activity android:name=".vue.center_activities.MainActivity">
+
+            <!-- android:theme="@style/SplashTheme" -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

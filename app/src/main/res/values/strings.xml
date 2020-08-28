@@ -1,0 +1,126 @@
+<resources>
+    <string name="app_name">Healt Center</string>
+
+    <string name="username">username</string>
+    <string name="password">password</string>
+
+    <string name="welcome">welcome</string>
+    <string name="homelayout2_1">Eat! Eat! Eat!</string>
+    <string name="homelayout3_1">Your Activities</string>
+    <string name="homelayout4_1">Organize your time</string>
+    <string name="home">Welcome </string>
+    <string name="profile">Your profil </string>
+
+    <string name="signupintro">Create your account</string>
+    <string name="signup">Sign up</string>
+    <string name="startsignup">Sign up</string>
+
+    <string name="taille">hight</string>
+    <string name="poid">weight</string>
+    <string name="date_naissence">Birthday</string>
+    <string name="sexe">Gender</string>
+    <string name="femme">Female</string>
+    <string name="homme">Male</string>
+    <string name="nom">First name </string>
+    <string name="prenom">Last name</string>
+
+    <string name="next">next</string>
+    <string name="back">back</string>
+
+    <string name="profilProgression">Profile Progression</string>
+
+    <string name="objectif">Goals</string>
+    <string name="objectif1">Be more healthy</string>
+    <string name="objectif2">Be more sporty</string>
+    <string name="objectif3">Manage the stress</string>
+    <string name="objectif4">Mental Health</string>
+
+
+    <string name="hint_user">write your user name</string>
+    <string name="hint_password">write your user password</string>
+
+    <string name="title_activity_main_my_menu">MainMyMenu</string>
+    <string name="title_home">Home</string>
+    <string name="title_actph">Physical Activity</string>
+    <string name="title_actmrl">Cognitive Activity</string>
+    <string name="title_nuttrision">Nutrition </string>
+    <string name="title_profile">Profil</string>
+
+    <string-array name="maladie">
+        <item>m1</item>
+        <item>m2</item>
+        <item>m3</item>
+        <item>m4</item>
+        <item>m5</item>
+    </string-array>
+
+
+    <string-array name="categorie_aliment">
+        <item>Leguems</item>
+        <item>Fruits Frais</item>
+        <item>Fruits Sec</item>
+        <item>Viandes</item>
+        <item>Burgers</item>
+        <item>Autre</item>
+    </string-array>
+
+
+    <string-array name="autre">
+        <item>Oeufs</item>
+        <item>Fromage a pate molle</item>
+        <item>Fromage a pate dure</item>
+        <item>Pain</item>
+        <item>Yaourt</item>
+        <item>Céréales</item>
+        <item>Beurre</item>
+        <item>Huiles, Sucre</item>
+    </string-array>
+
+    <string-array name="aigu">
+        <item>troubles digestifs</item>
+        <item>Manque de concentration</item>
+        <item>Agitation</item>
+        <item>Tristesse</item>
+    </string-array>
+
+    <string-array name="chronic">
+
+        <item>Dépression et anxiété</item>
+        <item>Douleur de toute nature</item>
+        <item>Problèmes de sommeil</item>
+        <item>Maladies auto immunes</item>
+        <item>Problèmes digestifs</item>
+        <item>Affections cutanées, comme leczéma</item>
+        <item>Cardiopathie</item>
+        <item>Problèmes de poids</item>
+        <item>Problèmes de reproduction</item>
+        <item>Problèmes de pensée et de mémoire</item>
+
+    </string-array>
+
+    <string-array name="burnOut">
+
+
+        <item>Se sentir fatigué et épuisé la plupart du temps</item>
+        <item>Maux de tête fréquents ou douleurs musculaires</item>
+        <item>Immunité réduite, maladies fréquentes</item>
+
+
+        <item>Changement d appétit ou de sommeil</item>
+        <item>Sentiment d échec et de doute de soi</item>
+        <item>Perte de motivation</item>
+        <item>Se sentir impuissant, pris au piège et vaincu</item>
+        <item>Perspectives de plus en plus cyniques et négatives</item>
+        <item>Détachement, se sentir seul au monde</item>
+        <item>satisfaction et du sentiment d accomplissement</item>
+        <item>Se retirer de ses responsabilités</item>
+        <item>Consommer de la nourriture, des drogues ou de l alcool pour faire face</item>
+        <item>S isoler des autres</item>
+        <item>Sortir vos frustrations des autres</item>
+        <item>Tergiverser, prendre plus de temps pour faire avancer les choses</item>
+        <item>Sauter le tra</item>>
+
+    </string-array>
+
+
+</resources>

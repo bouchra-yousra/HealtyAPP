@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "196001429791",
+    "firebase_url": "https://heath-app.firebaseio.com",
+    "project_id": "heath-app",
+    "storage_bucket": "heath-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196001429791:android:691e3bddccdc0c595f582a",
+        "android_client_info": {
+          "package_name": "com.example.healtyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "196001429791-r2jrg7di9mlgqk7m53l7d3uo6vc8sprt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.healtyapp",
+            "certificate_hash": "07e900ff38082fca45cc307949493b2225739655"
+          }
+        },
+        {
+          "client_id": "196001429791-kj5qif7tnnjo3bpl9t7kubhuqof91aeq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDs2dhm3syhbqajRKBpEnF3XasDbc_lRXU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "196001429791-kj5qif7tnnjo3bpl9t7kubhuqof91aeq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
