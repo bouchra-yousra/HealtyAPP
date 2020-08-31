@@ -18,6 +18,7 @@ import com.example.healtyapp.R;
 import com.example.healtyapp.Enumeration.gender;
 import com.example.healtyapp.dialogue.DatePickerFragment;
 import com.example.healtyapp.dialogue.DialogueChangePassword;
+import com.example.healtyapp.module.Birthday;
 import com.example.healtyapp.module.User;
 import com.example.healtyapp.vue.center_activities.MainActivity;
 import com.example.healtyapp.vue.center_activities.MainMyMenu;
@@ -25,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
@@ -66,6 +68,7 @@ public class CompteSettings extends AppCompatActivity implements DialogueChangeP
                 datePicker.show(getSupportFragmentManager(), "date picker");
             }
         });
+
         homme = findViewById(R.id.homme);
         femme = findViewById(R.id.femme);
         change_password = findViewById(R.id.change_password);
@@ -145,6 +148,29 @@ public class CompteSettings extends AppCompatActivity implements DialogueChangeP
         return false;
     }
 
+    boolean verifier_date (int minage, Calendar bday) {
+        int age = 0;
+        Calendar c = Calendar.getInstance();
+        if ( c.get(Calendar.YEAR) - bday.get(Calendar.YEAR) >= minage){
+            if ( c.get(Calendar.MONTH) - bday.get(Calendar.MONTH) >= 0){
+                if ( c.get(Calendar.DAY_OF_MONTH) - bday.get(Calendar.DAY_OF_MONTH) >= 0)
+                    age = c.get(Calendar.YEAR) - bday.get(Calendar.YEAR);
+                else
+                    age = c.get(Calendar.YEAR) - bday.get(Calendar.YEAR) -1;
+            }else
+                age = c.get(Calendar.YEAR) - bday.get(Calendar.YEAR);
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Try again", Toast.LENGTH_SHORT).show();
+            return false;}
+
+        if (c.get(Calendar.MONTH) - bday.get(Calendar.MONTH) == 0 && c.get(Calendar.DAY_OF_MONTH) - bday.get(Calendar.DAY_OF_MONTH) == 0)
+            Toast.makeText(getApplicationContext(),"Happy birthday", Toast.LENGTH_SHORT).show();
+
+
+        return true;
+    }
+
     void change_user () {
         if (verifier_text(firstname, 10))
             user.setFirst_name(firstname.getText().toString());
@@ -167,6 +193,10 @@ public class CompteSettings extends AppCompatActivity implements DialogueChangeP
                 && verifier_number(poid, 2,150,25)
                 && verifier_number(taille, 3,250,125)))
             Toast.makeText(getApplicationContext(),"Check again please",Toast.LENGTH_SHORT).show();
+        else {
+            MainMyMenu.user = this.user;
+            ProfileFragment.user = this.user;
+        }
     }
 
     void prepare () {
@@ -203,5 +233,24 @@ public class CompteSettings extends AppCompatActivity implements DialogueChangeP
         String currentDateString = DateFormat.getDateInstance(DateFormat.FULL).format(c.getTime());
         //TextView textView = (TextView) findViewById(R.id.textView);
         //textView.setText(currentDateString);
+        if(verifier_date(7,c)) {
+            Birthday b = new Birthday(c);
+           user.setBirthday_(b.getDay()+";"+b.getMonth()+";"+b.getYear()+";");
+        }
+    }
+
+    private ArrayList<String> divise(String word){
+        ArrayList arrayList = new ArrayList();
+        String a="";
+
+        for(int i=0;i<word.length();i++){
+            if(String.valueOf(word.charAt(i)).equals(";")){
+                arrayList.add(a);
+                a="";
+            }else{
+                a=a+word.charAt(i);
+            }
+        }
+        return  arrayList;
     }
 }

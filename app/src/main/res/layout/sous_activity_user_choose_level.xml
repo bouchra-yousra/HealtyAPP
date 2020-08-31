@@ -31,6 +31,7 @@
                         android:layout_gravity="center|center_horizontal|center_vertical"
                         android:layout_marginBottom="40dp"
                         android:layout_weight="1"
+                        android:fontFamily="@font/nunito"
                         android:gravity="center|center_horizontal|center_vertical"
                         android:text="Choose your Activity level"
                         android:textColor="@color/black"

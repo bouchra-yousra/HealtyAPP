@@ -483,7 +483,7 @@
                                                     android:layout_height="wrap_content"
                                                     android:layout_weight="1"
                                                     android:background="#00FFFFFF"
-                                                    android:src="@drawable/ic_fruits" />
+                                                    android:src="@drawable/ic_almond" />
 
                                                 <TextView
                                                     android:layout_width="match_parent"
@@ -743,26 +743,31 @@
                                         android:layout_weight="1"
                                         android:orientation="vertical">
 
-                                        <LinearLayout
-                                            android:id="@+id/the_glass"
+                                        <androidx.cardview.widget.CardView
                                             android:layout_width="80dp"
                                             android:layout_height="80dp"
                                             android:layout_marginStart="15dp"
-                                            android:layout_marginEnd="15dp"
-                                            android:layout_weight="1"
-                                            android:clickable="true"
-                                            android:orientation="vertical">
+                                            android:layout_marginEnd="15dp">
 
-                                            <ImageButton
-                                                android:layout_width="match_parent"
-                                                android:layout_height="match_parent"
-                                                android:layout_marginBottom="10dp"
+                                            <LinearLayout
+                                                android:id="@+id/the_glass"
+                                                android:layout_width="80dp"
+                                                android:layout_height="80dp"
                                                 android:layout_weight="1"
-                                                android:background="#00FFFFFF"
-                                                android:clickable="false"
-                                                app:srcCompat="@drawable/ic_glass_of_water"
-                                                tools:ignore="VectorDrawableCompat" />
-                                        </LinearLayout>
+                                                android:clickable="true"
+                                                android:orientation="vertical">
+
+                                                <ImageButton
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:layout_marginBottom="10dp"
+                                                    android:layout_weight="1"
+                                                    android:background="#00FFFFFF"
+                                                    android:clickable="false"
+                                                    app:srcCompat="@drawable/ic_glass_of_water"
+                                                    tools:ignore="VectorDrawableCompat" />
+                                            </LinearLayout>
+                                        </androidx.cardview.widget.CardView>
 
                                         <TextView
                                             android:id="@+id/textView30"
@@ -779,27 +784,32 @@
                                         android:layout_weight="1"
                                         android:orientation="vertical">
 
-                                        <LinearLayout
-                                            android:id="@+id/the_bottle"
+                                        <androidx.cardview.widget.CardView
                                             android:layout_width="80dp"
                                             android:layout_height="80dp"
                                             android:layout_marginStart="15dp"
-                                            android:layout_marginEnd="15dp"
-                                            android:layout_weight="1"
-                                            android:clickable="true"
-                                            android:orientation="vertical">
+                                            android:layout_marginEnd="15dp">
 
-                                            <ImageButton
-                                                android:id="@+id/imageButton4"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="match_parent"
-                                                android:layout_marginBottom="10dp"
+                                            <LinearLayout
+                                                android:id="@+id/the_bottle"
+                                                android:layout_width="80dp"
+                                                android:layout_height="80dp"
                                                 android:layout_weight="1"
-                                                android:background="#00FFFFFF"
-                                                android:clickable="false"
-                                                app:srcCompat="@drawable/ic_milk"
-                                                tools:ignore="VectorDrawableCompat" />
-                                        </LinearLayout>
+                                                android:clickable="true"
+                                                android:orientation="vertical">
+
+                                                <ImageButton
+                                                    android:id="@+id/imageButton4"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:layout_marginBottom="10dp"
+                                                    android:layout_weight="1"
+                                                    android:background="#00FFFFFF"
+                                                    android:clickable="false"
+                                                    app:srcCompat="@drawable/ic_milk"
+                                                    tools:ignore="VectorDrawableCompat" />
+                                            </LinearLayout>
+                                        </androidx.cardview.widget.CardView>
 
                                         <TextView
                                             android:layout_width="match_parent"
@@ -815,27 +825,32 @@
                                         android:layout_weight="1"
                                         android:orientation="vertical">
 
-                                        <LinearLayout
-                                            android:id="@+id/the_other"
+                                        <androidx.cardview.widget.CardView
                                             android:layout_width="80dp"
                                             android:layout_height="80dp"
                                             android:layout_marginStart="15dp"
-                                            android:layout_marginEnd="15dp"
-                                            android:layout_weight="1"
-                                            android:clickable="true"
-                                            android:orientation="vertical">
+                                            android:layout_marginEnd="15dp">
 
-                                            <ImageButton
-                                                android:layout_width="match_parent"
-                                                android:layout_height="match_parent"
-                                                android:layout_marginBottom="10dp"
+                                            <LinearLayout
+                                                android:id="@+id/the_other"
+                                                android:layout_width="80dp"
+                                                android:layout_height="80dp"
                                                 android:layout_weight="1"
-                                                android:background="#00FFFFFF"
-                                                android:clickable="false"
-                                                app:srcCompat="@drawable/ic_water_drop"
-                                                tools:ignore="VectorDrawableCompat" />
+                                                android:clickable="true"
+                                                android:orientation="vertical">
 
-                                        </LinearLayout>
+                                                <ImageButton
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="match_parent"
+                                                    android:layout_marginBottom="10dp"
+                                                    android:layout_weight="1"
+                                                    android:background="#00FFFFFF"
+                                                    android:clickable="false"
+                                                    app:srcCompat="@drawable/ic_water_drop"
+                                                    tools:ignore="VectorDrawableCompat" />
+
+                                            </LinearLayout>
+                                        </androidx.cardview.widget.CardView>
 
                                         <TextView
                                             android:id="@+id/the_other_txt"

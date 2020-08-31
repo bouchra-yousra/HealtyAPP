@@ -23,7 +23,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="30dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -46,14 +46,37 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:tint="#0500AA9A"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.391"
+                    app:srcCompat="@drawable/icon_custom"
+                    app:tintMode="src_atop"
+                    tools:ignore="VectorDrawableCompat" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="30dp"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingLeft="0dp"
@@ -97,7 +120,7 @@
                 android:id="@+id/login_forgetpswd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/nunito"
                 android:gravity="center"
                 android:text="Forget Your Password?"
@@ -109,9 +132,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
 
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="00dp"
 
                 android:backgroundTint="@color/colorPrimary"
                 app:cardCornerRadius="3dp"
@@ -157,26 +180,24 @@
             </androidx.cardview.widget.CardView>
 
 
-
-
             <LinearLayout
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="60dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
 
-                android:layout_height="wrap_content">
+                android:layout_marginBottom="50dp"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_marginTop="4dp"
-
-                    android:textStyle="bold"
                     android:layout_width="match_parent"
-                    android:fontFamily="@font/nunito"
 
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/nunito"
+
                     android:text="Not a user ?"
-                    />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/login_creat_account"
@@ -187,7 +208,6 @@
                     android:textAlignment="center"
                     android:textColor="@color/txt2"
                     android:textStyle="bold" />
-
 
 
             </LinearLayout>

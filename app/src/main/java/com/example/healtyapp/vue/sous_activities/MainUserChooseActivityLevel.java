@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.healtyapp.R;
+import com.example.healtyapp.module.Birthday;
 import com.example.healtyapp.vue.app_initialisation.SignUpActivity2;
 
 public class MainUserChooseActivityLevel extends AppCompatActivity {
@@ -17,6 +18,7 @@ public class MainUserChooseActivityLevel extends AppCompatActivity {
     LinearLayout level0,level1,level2,level3;
     String height,weight,sexe,maladie;
     int number;
+    Birthday bday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class MainUserChooseActivityLevel extends AppCompatActivity {
         maladie = intent.getStringExtra("Maladie");
         sexe = intent.getStringExtra("Sexe");
         number = intent.getIntExtra("Number",0);
+
+        bday = new Birthday(intent.getIntExtra("birthday_day",1),intent.getIntExtra("birthday_month",1),intent.getIntExtra("birthday_year",2000));
 
         level0.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +77,12 @@ public class MainUserChooseActivityLevel extends AppCompatActivity {
         intent1.putExtra("Sexe",sexe);
         intent1.putExtra("Number",number);
         intent1.putExtra("Level",n);
+
+        intent1.putExtra("birthday_day",bday.getDay());
+        intent1.putExtra("birthday_month",bday.getMonth());
+        intent1.putExtra("birthday_year",bday.getYear());
+
         startActivityForResult(intent1,0);
+        finish();
     }
 }

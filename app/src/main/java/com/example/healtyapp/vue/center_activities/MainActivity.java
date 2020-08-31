@@ -40,14 +40,18 @@ public class MainActivity extends AppCompatActivity {
     public static final String MyUser = "MyUser";
     private static String userid;
 
+    Boolean systeme_pane = false;
+
     @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.init_activity_main);
         share = getSharedPreferences("MyUser",MODE_PRIVATE);
 
+        if (systeme_pane) {
+            logout();
+        }
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -125,6 +129,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
     }
+
+    //logout
+    void logout () {
+        SharedPreferences.Editor edit1 = share.edit();
+        edit1.clear();
+        edit1.apply();
+
+        FirebaseAuth.getInstance().signOut();
+        finish();
+    }
+
 }

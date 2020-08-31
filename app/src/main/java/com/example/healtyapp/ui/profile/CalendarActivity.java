@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
@@ -116,7 +119,7 @@ public class CalendarActivity extends AppCompatActivity {
                 choice = c2;
                 gerer_color (b,c,a);
                 gere_affichage(dateselected);
-                Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "2", Toast.LENGTH_LONG).show();
             }
         });
         c.setOnClickListener(new View.OnClickListener() {
@@ -144,16 +147,17 @@ public class CalendarActivity extends AppCompatActivity {
                 //garder la date selectionner
                 dateselected = selectedDate;
 
+                //preparer les lists (vide + listview vide)
+                activityPhysique = new ArrayList<>();
+                activityCognitive = new ArrayList<>();
+                activityNutrition = new ArrayList<>();
+
+                updatelist_cognitive();
+                updatelist_nutrition();
+                updatelist_physique();
+
                 //future
                 if (calSelected.compareTo(Calendar.getInstance()) > 0){
-
-                    activityPhysique = new ArrayList<>();
-                    activityCognitive = new ArrayList<>();
-                    activityNutrition = new ArrayList<>();
-
-                    updatelist_cognitive();
-                    updatelist_nutrition();
-                    updatelist_physique();
 
                     txtnoact.setText(n2);
                     laynoact.setVisibility(View.VISIBLE);
@@ -161,6 +165,7 @@ public class CalendarActivity extends AppCompatActivity {
                 }
                 //today/past
                 else {
+
                     txtnoact.setText(n1);
                     laynoact.setVisibility(View.VISIBLE);
                     gere_affichage(selectedDate);
@@ -171,8 +176,6 @@ public class CalendarActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.list);
         listView.setAdapter(null);
-
-
     }
 
 
@@ -243,13 +246,7 @@ public class CalendarActivity extends AppCompatActivity {
                             activityCognitive.add(a);
 
                             updatelist_cognitive();
-                            updatelist_nutrition();
-                            updatelist_physique();
-
-                            Toast.makeText(getApplicationContext(), choice, Toast.LENGTH_SHORT).show();
-
                             laynoact.setVisibility(View.GONE);
-                           //
                         }
                     }else
                         laynoact.setVisibility(View.VISIBLE);
@@ -337,6 +334,17 @@ public class CalendarActivity extends AppCompatActivity {
 
 
     //Vue
+    //convert dp into pixel
+    public static int methode(float dp, Context context){
+        Resources resources = context.getResources();
+        int i = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                resources.getDisplayMetrics()
+        );
+        return i;
+    }
+
     void gere_affichage (String key) {
 
         if (txtnoact.getText().equals(n0)) {

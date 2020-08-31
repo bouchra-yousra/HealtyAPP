@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -23,7 +24,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.healtyapp.Enumeration.gender;
 import com.example.healtyapp.module.BienEtre;
+import com.example.healtyapp.module.ExercicePhysique;
 import com.example.healtyapp.module.PreventionBurnOut;
 import com.example.healtyapp.module.Sport;
 import com.example.healtyapp.vue.center_activities.MainActivity;
@@ -47,18 +50,22 @@ import java.util.Calendar;
 public class ProfileFragment extends Fragment {
 
     private ProfileViewModel profileViewModel;
-    static User user = new User();
+    public static User user = new User();
     private TextView txt_poids, txt_taille, txt_bday, txt_fname, txt_lname, txt_sexe;
+
     private Objectifitem obj;
     private ObjectifAdapter adapt_obj;
     private ListView objectif;
     private ArrayList<Objectifitem> arrayList = new ArrayList<>();
     private ViewGroup.LayoutParams layoutParams;
     private boolean obj1,obj2,obj0;
+
     private Button logout;
     private LinearLayout l1,l2,l3,settings,gotocalendar,set_obj;
     LinearLayout layout_objectif; //element par element
     LinearLayout getLayout_objectif_item;
+
+    LinearLayout ishomme,isfemmme;
 
     public static int one_all = 0; //changes when the Objectif item;changes
 
@@ -84,7 +91,6 @@ public class ProfileFragment extends Fragment {
     String today = "" + calSelected.get(Calendar.DAY_OF_MONTH)
             + (calSelected.get(Calendar.MONTH) + 1)
             + calSelected.get(Calendar.YEAR);
-
 
 
     @SuppressLint("ResourceType")
@@ -125,6 +131,10 @@ public class ProfileFragment extends Fragment {
         txt_taille.setText(user.getTaille());
         txt_sexe = root.findViewById(R.id.sexe);
         txt_sexe.setText(user.getSexe());
+        isfemmme = root.findViewById(R.id.isfemme);
+        ishomme = root.findViewById(R.id.ishomme);
+        gerer_img_gender();
+
         set_obj = root.findViewById(R.id.set_goal);
 
         set_obj.setOnClickListener(new View.OnClickListener() {
@@ -163,6 +173,7 @@ public class ProfileFragment extends Fragment {
         //generate liste de type objectif item
         put_list_obj();
 
+        /*
         a1 = root.findViewById(R.id.progress_physique1);
         a2 = root.findViewById(R.id.progress_physique2);
         a3 = root.findViewById(R.id.progress_physique3);
@@ -185,7 +196,7 @@ public class ProfileFragment extends Fragment {
         change_progress (b3,0);
         change_progress (c1,0);
         change_progress (c2,0);
-        change_progress (c3,0);
+        change_progress (c3,0);*/
         /*
         objectif = root.findViewById(R.id.list_objectif);
         adapt_obj = new ObjectifAdapter(root.getContext(),R.layout.item_objectif,arrayList);
@@ -351,6 +362,18 @@ public class ProfileFragment extends Fragment {
         return i;
     }
 
+    //gender image
+    void gerer_img_gender () {
+        if (user.getSexe().equals(gender.FEMME.toString())) {
+            isfemmme.setVisibility(View.VISIBLE);
+            ishomme.setVisibility(View.GONE);
+        }else {
+            isfemmme.setVisibility(View.GONE);
+            ishomme.setVisibility(View.VISIBLE);
+
+        }
+    }
+
     //list objectif
     void put_list_obj(){
         for (int i = 0;i < user.getObjectifs().size(); i++){
@@ -370,6 +393,12 @@ public class ProfileFragment extends Fragment {
     void display_item(Objectifitem object, TextView name, ProgressBar physique, ProgressBar cognitive, ProgressBar nutrition, LinearLayout l) {
         name.setText(object.getName());
         l.setVisibility(View.VISIBLE);
+
+        getHistory_all_Progress_parobj(physique,cognitive,nutrition);
+        object.setProgress_physique(physique.getProgress());
+        object.setProgress_cognitive(cognitive.getProgress());
+        object.setProgress_nutrition(nutrition.getProgress());
+
         physique.setProgress(object.getProgress_physique());
         cognitive.setProgress(object.getProgress_cognitive());
         nutrition.setProgress(object.getProgress_nutrition());
@@ -444,6 +473,68 @@ public class ProfileFragment extends Fragment {
         });
         //
     }
+
+    public void getHistory_Taux_Progress_parobj (String titre, final ProgressBar progressBar){
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Objectif").child("ObjectiveUser").child(MainMyMenu.user.getIdUser()).child(titre);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    int taux = 0;
+                    if (dataSnapshot.child("active").exists())
+                        if (dataSnapshot.child("active").getValue(Boolean.class))
+                            if (dataSnapshot.child("taux_progression").exists())
+                                taux = dataSnapshot.child("taux_progression").getValue(Integer.class);
+                    progressBar.setProgress(taux);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+        //
+    }
+
+    public void getHistory_all_Progress_parobj (final ProgressBar pro1, final ProgressBar pro2, final ProgressBar pro3){
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(MainMyMenu.user.getIdUser());
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        int proph = 0,progn = 0,pronut = 0,prowt = 0;
+
+                        if (snapshot.child("Progressions").exists()) {
+                            if (snapshot.child("Progressions").child("Cognitive").exists())
+                                progn = snapshot.child("Progressions").child("Cognitive").getValue(Integer.class);
+
+                            if (snapshot.child("Progressions").child("Nutrition").exists())
+                                pronut = snapshot.child("Progressions").child("Nutrition").getValue(Integer.class);
+
+                            if (snapshot.child("Progressions").child("Physique").exists())
+                                proph = snapshot.child("Progressions").child("Physique").getValue(Integer.class);
+
+                            if (snapshot.child("Progressions").child("Water").exists())
+                                prowt = snapshot.child("Progressions").child("Water").getValue(Integer.class);
+                        }
+
+                        pro1.setProgress(pro1.getProgress()+proph);
+                        pro2.setProgress(pro2.getProgress()+progn);
+                        pro3.setProgress(pro3.getProgress()+pronut);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+        //
+    }
+
 
     private int calcul_progress(int proph, int progn, int pronut) {
         int total = 0, nb = 0;

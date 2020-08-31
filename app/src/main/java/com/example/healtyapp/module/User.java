@@ -1,5 +1,9 @@
 package com.example.healtyapp.module;
 
+import android.widget.Toast;
+
+import androidx.annotation.IntegerRes;
+
 import com.example.healtyapp.Enumeration.gender;
 
 import java.util.ArrayList;
@@ -24,30 +28,96 @@ public class User {
     private double metabolisme;
     private double besoin_energy;
     private double besoin_eau;
+    //private String birthday_;
 
-    private Date date_naiss;
+    /*public String getBirthday_() {
+        return birthday_;
+    }*/
 
+    public void setBirthday_(String birthday_) {
+        this.age = birthday_;
+    }
+
+    public void setBirthday_(Calendar c) {
+        Birthday b = new Birthday(c);
+        this.setBirthday_(b.getDay()+";"+b.getMonth()+";"+b.getYear()+";");
+    }
+
+    public void setBirthday_(Birthday b) {
+        this.setBirthday_(b.getDay()+";"+b.getMonth()+";"+b.getYear()+";");
+    }
+
+/* private ArrayList<String> birthday ;
+
+    public ArrayList<Integer> getBirthday() {
+        ArrayList<Integer> a = new ArrayList<>();
+        a.add(Integer.parseInt(birthday.get (0)));
+        a.add(Integer.parseInt(birthday.get (1)));
+        a.add(Integer.parseInt(birthday.get (2)));
+        return a;
+    }
+
+    public void setBirthday(Birthday birthday) {
+//        this.birthday.clear();
+        this.birthday = new ArrayList<> ();
+        this.birthday.add(String.valueOf(birthday.day));
+        this.birthday.add(String.valueOf(birthday.month));
+        this.birthday.add(String.valueOf(birthday.year));
+    }*/
     public User(){
     }
 
-    public Date getDate_naiss() {
-        return date_naiss;
+    private ArrayList<Integer> divise_Birthday (String word){
+        ArrayList arrayList = new ArrayList();
+        String a="";
+
+        for(int i=0;i<word.length();i++){
+            if(String.valueOf(word.charAt(i)).equals(";")){
+                arrayList.add(Integer.parseInt(a));
+                a="";
+            }else{
+                a=a+word.charAt(i);
+            }
+        }
+        return  arrayList;
     }
+
+    private Birthday getBirthdayBirthday (String word){
+        ArrayList<Integer> arrayList = new ArrayList();
+        String a="";
+
+        for(int i=0;i<word.length();i++){
+            if(String.valueOf(word.charAt(i)).equals(";")){
+                arrayList.add(Integer.parseInt(a));
+                a="";
+            }else{
+                a=a+word.charAt(i);
+            }
+        }
+        return  new Birthday(arrayList.get(0),arrayList.get(1),arrayList.get(3));
+    }
+
+    public int getAgeFromBirthday (Birthday b) {
+        return b.calculate_age();
+    }
+
 
     public void setMetabolisme(double metabolisme) {
         this.metabolisme = metabolisme;
     }
 
+    //GETTERS
     public String getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
-    }
-
     public String getFirst_name() {
         return first_name;
+    }
+
+    //SETTERS
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     public void setFirst_name(String first_name) {
@@ -166,6 +236,13 @@ public class User {
 
     private double convertToMeter(double taille_cm){
         return  taille_cm/100.;
+    }
+
+    public String getAge_() {
+        if (age.length() == 2)
+            return age;
+        else
+            return String.valueOf(getAgeFromBirthday(getBirthdayBirthday(age)));
     }
 
     public String getAge() {

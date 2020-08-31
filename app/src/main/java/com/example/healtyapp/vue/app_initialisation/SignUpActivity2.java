@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.healtyapp.R;
 import com.example.healtyapp.module.BienEtre;
+import com.example.healtyapp.module.Birthday;
 import com.example.healtyapp.module.PreventionBurnOut;
 import com.example.healtyapp.module.Sport;
 import com.example.healtyapp.module.User;
@@ -38,7 +39,7 @@ public class SignUpActivity2 extends AppCompatActivity {
 
     //
     TextInputLayout a,b,c,d,e,f;
-    EditText first_name,last_name,username,year,email,password;
+    EditText first_name,last_name,username,email,password;
     LinearLayout create;
     Intent intent;
     User user;
@@ -62,8 +63,8 @@ public class SignUpActivity2 extends AppCompatActivity {
         c  = findViewById(R.id.signup_username);
         username = c.getEditText();
 
-        d  = findViewById(R.id.signup_year_name);
-        year = d.getEditText();
+       // d  = findViewById(R.id.signup_year_name);
+       // year = d.getEditText();
 
         e  = findViewById(R.id.signup_email);
         email = e.getEditText();
@@ -87,22 +88,18 @@ public class SignUpActivity2 extends AppCompatActivity {
     public boolean isValidate(){
         if(/*validename(firstname) && */!first_name.getText().toString().isEmpty()){
             if(/*validename(last_name)&&*/!last_name.getText().toString().isEmpty() ){
-                if(/*ValideYear(year) &&*/ !year.getText().toString().isEmpty()&&Integer.parseInt(year.getText().toString())<=2001){
-                    if(/*valideusername(username) && */!username.getText().toString().isEmpty()){
-                        if(/*validemail(mail) && */!email.getText().toString().isEmpty()){
-                            if(/*validepassword(password) && */!password.getText().toString().isEmpty() && password.getText().toString().length()>=8){
+                if(/*valideusername(username) && */!username.getText().toString().isEmpty()){
+                    if(/*validemail(mail) && */!email.getText().toString().isEmpty()){
+                        if(/*validepassword(password) && */!password.getText().toString().isEmpty() && password.getText().toString().length()>=8){
                                         return  true;
-                            }else{
-                                Toast.makeText(getApplicationContext(),"Verfier Password",Toast.LENGTH_SHORT).show();
-                            }
                         }else{
-                            Toast.makeText(getApplicationContext(),"Verfier Mail",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"Verfier Password",Toast.LENGTH_SHORT).show();
                         }
                     }else{
-                        Toast.makeText(getApplicationContext(),"Verfier UserName",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Verfier Mail",Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getApplicationContext(),"Verfier Year",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"Verfier UserName",Toast.LENGTH_SHORT).show();
                 }
             }else{
                 Toast.makeText(getApplicationContext(),"Verfier Laste Name",Toast.LENGTH_SHORT).show();
@@ -130,7 +127,11 @@ public class SignUpActivity2 extends AppCompatActivity {
         user.setEmail(email.getText().toString());
         user.setPassword(password.getText().toString());
 
-        user.setAge(String.valueOf(currentyear-Integer.parseInt(year.getText().toString())));
+        //user.setAge(String.valueOf(currentyear-Integer.parseInt(year.getText().toString())));
+
+        Birthday bday = new Birthday(intent.getIntExtra("birthday_day",1),intent.getIntExtra("birthday_month",1),intent.getIntExtra("birthday_year",2000));
+        //user.setBirthday_(bday);
+        user.setAge(String.valueOf(user.getAgeFromBirthday(bday)));
 
         user.setPoids(intent.getStringExtra("Weight"));
         user.setMaladie(intent.getStringExtra("Maladie"));

@@ -308,7 +308,7 @@ public class NutritionFragment extends Fragment {
         center_water.setText(String.valueOf((progressBareau.getProgress()*100) / progressBareau.getMax()));
         addprogress_water((progressBareau.getProgress()*100) / progressBareau.getMax());
 
-        Toast.makeText(getActivity(),"water" + quantite_water + "|" + share.getInt("currentWater",0) + "|",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(),"water" + quantite_water + "|" + share.getInt("currentWater",0) + "|",Toast.LENGTH_SHORT).show();
         }
       }
     });
@@ -608,7 +608,7 @@ public class NutritionFragment extends Fragment {
     l2.setBackground(getActivity().getDrawable(color2));
     l3.setBackground(getActivity().getDrawable(color2));
 
-    Toast.makeText(getActivity(),"bottle",Toast.LENGTH_SHORT).show();
+    //Toast.makeText(getActivity(),"bottle",Toast.LENGTH_SHORT).show();
 
     quantite_water = q * 10;
   }

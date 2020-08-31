@@ -12,6 +12,7 @@
     <color name="layout3">#7E26A88F</color>
     <color name="Element1">@color/Element2</color>
     <color name="Element2">#FFFFFF</color>
+    <color name="Element3" >#FFFFFF</color>
 
     <color name="txt1">#FEFFFF</color>
     <color name="txt2">#172C2A</color>
