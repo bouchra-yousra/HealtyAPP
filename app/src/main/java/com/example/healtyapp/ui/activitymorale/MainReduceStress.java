@@ -36,8 +36,6 @@ public class MainReduceStress extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_reduce_stress);
 
-        click1 = findViewById(R.id.click1);
-        click2= findViewById(R.id.click2);
         click3= findViewById(R.id.click3);
 
         back = findViewById(R.id.back);

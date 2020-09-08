@@ -21,7 +21,6 @@
                 android:id="@+id/imageView3"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:tint="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
@@ -29,7 +28,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.391"
                 app:srcCompat="@drawable/ic_heart"
-                tools:ignore="VectorDrawableCompat" />
+                tools:ignore="VectorDrawableCompat"
+                app:tint="#FFFFFF" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
                 android:text="@string/app_name"
-                android:textColor="#51FFFFFF"
+                android:textColor="#26FFFFFF"
                 android:textSize="32sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
                 android:text="@string/app_name"
-                android:textColor="#39FFFFFF"
+                android:textColor="#0DFFFFFF"
                 android:textSize="33sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

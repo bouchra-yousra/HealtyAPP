@@ -155,7 +155,7 @@ public class NutritionHistoryActivity extends AppCompatActivity {
             y+=activityNutrition.get(i).getAlimentData().getQuantite();
         }
 
-        all_cal.setText(String.valueOf(x)+ "kCal");
+        all_cal.setText(String.valueOf(x)+ "Cal");
         all_time.setText(String.valueOf(y)+" g");
     }
 }

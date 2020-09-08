@@ -5,7 +5,7 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4D0F8770"
+    android:background="@color/layout4"
     android:scrollbars="horizontal"
     tools:context=".ui.home.HomeFragment">
 
@@ -54,15 +54,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_marginTop="25dp"
+                            android:layout_marginTop="10dp"
                             android:layout_marginBottom="5dp"
                             android:layout_weight="1"
                             android:fontFamily="@font/nunito"
                             android:gravity="center"
                             android:text="Welcome "
-                            android:textColor="@color/white"
+                            android:textColor="@color/txt1"
                             android:textColorHint="@color/bleu_gris_fonçe"
-                            android:textSize="22sp"
+                            android:textSize="25sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
@@ -206,7 +206,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_weight="2"
                                             android:shadowColor="@color/white"
-                                            android:text="lipid"
+                                            android:text="@string/lipide"
                                             android:textColor="@color/white" />
 
                                         <TextView
@@ -231,7 +231,7 @@
                                             android:layout_height="match_parent"
                                             android:layout_weight="2"
                                             android:shadowColor="@color/white"
-                                            android:text="Glucide"
+                                            android:text="@string/glucide"
                                             android:textColor="@color/white" />
 
                                         <TextView
@@ -257,7 +257,7 @@
                                             android:layout_height="match_parent"
                                             android:layout_weight="2"
                                             android:shadowColor="@color/white"
-                                            android:text="protine"
+                                            android:text="@string/protine"
                                             android:textColor="@color/white" />
 
                                         <TextView
@@ -617,18 +617,21 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:orientation="horizontal">
+                                    android:gravity="center"
+                                    android:orientation="vertical">
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text=" Protine " />
+                                        android:text="@string/protine"
+                                        android:textSize="12sp" />
 
                                     <TextView
                                         android:id="@+id/protine"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="0 kcal" />
+                                        android:text="0 kcal"
+                                        android:textSize="10sp" />
                                 </LinearLayout>
 
                                 <ProgressBar
@@ -650,19 +653,22 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:orientation="horizontal">
+                                    android:gravity="center"
+                                    android:orientation="vertical">
 
                                     <TextView
                                         android:id="@+id/textView54"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Lipide " />
+                                        android:text="@string/lipide"
+                                        android:textSize="12sp" />
 
                                     <TextView
                                         android:id="@+id/lipide"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="0 kcal" />
+                                        android:text="0 kcal"
+                                        android:textSize="10sp" />
                                 </LinearLayout>
 
                                 <ProgressBar
@@ -684,18 +690,21 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:orientation="horizontal">
+                                    android:gravity="center"
+                                    android:orientation="vertical">
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Glucide " />
+                                        android:text="@string/glucide"
+                                        android:textSize="12sp" />
 
                                     <TextView
                                         android:id="@+id/glucide"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="0 kcal" />
+                                        android:text="0 kcal"
+                                        android:textSize="10sp" />
                                 </LinearLayout>
 
                                 <ProgressBar
@@ -720,7 +729,7 @@
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical"
                     android:visibility="visible"
-                    tools:visibility="visible">
+                    tools:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -751,7 +760,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:orientation="horizontal"
-                                android:visibility="visible">
+                                android:visibility="visible"
+                                tools:visibility="gone">
 
                                 <androidx.cardview.widget.CardView
                                     android:layout_width="match_parent"
@@ -765,7 +775,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:orientation="vertical"
-                                        android:padding="15dp">
+                                        android:padding="15dp"
+                                        android:visibility="gone">
 
                                         <TextView
                                             android:id="@+id/rec_exo1"
@@ -801,7 +812,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:orientation="vertical"
-                                        android:padding="15dp">
+                                        android:padding="15dp"
+                                        android:visibility="gone">
 
                                         <TextView
                                             android:id="@+id/rec_exo2"
@@ -837,7 +849,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:orientation="vertical"
-                                        android:padding="15dp">
+                                        android:padding="15dp"
+                                        android:visibility="gone">
 
                                         <TextView
                                             android:id="@+id/rec_exo3"
@@ -873,7 +886,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:orientation="vertical"
-                                        android:padding="15dp">
+                                        android:padding="15dp"
+                                        android:visibility="gone">
 
                                         <TextView
                                             android:id="@+id/rec_exo4"
@@ -912,7 +926,7 @@
                     android:visibility="visible"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="10dp"
-                    tools:visibility="visible">
+                    tools:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/layout_home2"
@@ -1109,12 +1123,13 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="Pomodoro"
                             android:textColor="@color/white"
-                            android:textColorHint="@color/bleu_gris_fonçe"
-                            android:textSize="17sp" />
+                            android:textColorHint="@color/c3"
+                            android:textSize="20sp" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"

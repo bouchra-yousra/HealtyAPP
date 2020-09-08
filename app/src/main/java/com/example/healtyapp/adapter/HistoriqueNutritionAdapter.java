@@ -1,5 +1,6 @@
 package com.example.healtyapp.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ public class HistoriqueNutritionAdapter extends ArrayAdapter<Aliment_historique>
         this.resource = resource;
     }
 
+    @SuppressLint("SetTextI18n")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -54,10 +56,10 @@ public class HistoriqueNutritionAdapter extends ArrayAdapter<Aliment_historique>
         protein = convertView.findViewById(R.id.protine);
 
         name.setText(name_);
-        calories.setText(String.valueOf(calorie_al)+" kcal");
-        lipide.setText(String.valueOf(lipide_al)+" kcal");
-        glucide.setText(String.valueOf(glucide_al)+" kcal");
-        protein.setText(String.valueOf(protine_al)+" kcal");
+        calories.setText(String.valueOf(calorie_al)+" cal");
+        lipide.setText(String.valueOf(lipide_al)+" cal");
+        glucide.setText(String.valueOf(glucide_al)+" cal");
+        protein.setText(String.valueOf(protine_al)+" cal");
         quantite.setText(String.valueOf(quantite_al)+" g");
 
         return convertView;

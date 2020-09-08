@@ -115,7 +115,7 @@
                         android:layout_margin="8dp"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="3dp"
-                        tools:visibility="visible">
+                        tools:visibility="gone">
 
                         <LinearLayout
                             android:id="@+id/stress1"
@@ -152,19 +152,6 @@
                                 android:textColor="@color/black"
                                 android:textSize="17sp" />
 
-                            <TextView
-                                android:id="@+id/click1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginBottom="5dp"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:padding="5dp"
-                                android:text="Valid"
-                                android:textColor="@color/colorAccent3"
-                                android:textStyle="bold" />
-
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
@@ -175,7 +162,7 @@
                         android:layout_margin="8dp"
                         app:cardCornerRadius="10dp"
                         app:cardElevation="3dp"
-                        tools:visibility="visible">
+                        tools:visibility="gone">
 
                         <LinearLayout
                             android:id="@+id/stress2"
@@ -211,19 +198,6 @@
                                 android:text="-Feeling\n-Feeling\n-Feeling"
                                 android:textColor="@color/black"
                                 android:textSize="17sp" />
-
-                            <TextView
-                                android:id="@+id/click2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginBottom="5dp"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:padding="5dp"
-                                android:text="Valid"
-                                android:textColor="@color/colorAccent3"
-                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -271,22 +245,22 @@
                                 android:textColor="@color/black"
                                 android:textSize="17sp" />
 
-                            <TextView
-                                android:id="@+id/click3"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginBottom="5dp"
-                                android:background="?android:attr/selectableItemBackground"
-                                android:padding="5dp"
-                                android:text="Valid"
-                                android:textColor="@color/colorAccent3"
-                                android:textStyle="bold" />
-
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/click3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:padding="5dp"
+                        android:text="Validate"
+                        android:textColor="@color/colorAccent3"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>

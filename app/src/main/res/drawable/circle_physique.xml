@@ -21,7 +21,7 @@
                 android:thickness="10dp"
                 android:useLevel="true">
                 <gradient
-                    android:endColor="@color/colorPrimaryDark"
+                    android:endColor="@color/colorPrimary"
                     android:startColor="@color/colorPrimary"
                     android:type="sweep" />
             </shape>

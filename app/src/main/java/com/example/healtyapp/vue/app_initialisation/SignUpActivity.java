@@ -25,6 +25,7 @@ import com.example.healtyapp.R;
 import com.example.healtyapp.dialogue.DatePickerFragment;
 import com.example.healtyapp.dialogue.DialogueChangePassword;
 import com.example.healtyapp.module.Birthday;
+import com.example.healtyapp.module.User;
 import com.example.healtyapp.vue.sous_activities.MainUserChooseActivityLevel;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.FirebaseDatabase;
@@ -271,7 +272,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         bday_valide = verifier_date(7,c);
         if(bday_valide) {
             user_birthday =new Birthday(c);
-            textbday.setText(currentDateString);
+            textbday.setText(String.valueOf(user_birthday.calculate_age(c)));
         }
     }
 }

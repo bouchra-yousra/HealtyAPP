@@ -412,7 +412,7 @@ public class ProfileFragment extends Fragment {
 
         edit2.clear();
         edit2.apply();
-        clean_progress();
+        //clean_progress();
 
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getActivity(),MainActivity.class));
@@ -420,6 +420,7 @@ public class ProfileFragment extends Fragment {
     }
 
     void clean_progress () {
+
         ActivityphysicFragment.progressBar_physique.setProgress(0);
         ActivitymoraleFragment.progressBar_cognitive.setProgress(0);
         HomeFragment.progressBar_home.setProgress(0);

@@ -22,7 +22,7 @@ public class Birthday {
     }
 
     //METHODES
-    int calculate_age (Calendar bday) {
+    public int calculate_age (Calendar bday) {
         int age = 0;
         Calendar c = Calendar.getInstance();
 
@@ -50,7 +50,7 @@ public class Birthday {
         return age;
     }
 
-    boolean isBirthday (Calendar bday) {
+    public boolean isBirthday (Calendar bday) {
         Calendar c = Calendar.getInstance();
         if (c.get(Calendar.MONTH) - bday.get(Calendar.MONTH) == 0 && c.get(Calendar.DAY_OF_MONTH) - bday.get(Calendar.DAY_OF_MONTH) == 0)
             return true;
@@ -58,7 +58,7 @@ public class Birthday {
     }
 
     //METHODES Birthday
-    int calculate_age () {
+    public int calculate_age () {
         int age = 0;
         Calendar c = Calendar.getInstance();
 

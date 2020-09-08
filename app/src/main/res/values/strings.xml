@@ -1,9 +1,12 @@
 <resources>
-    <string name="app_name">Health Center</string>
+    <string name="app_name">Healthy Life Style</string>
 
+    <string name="protine">Protein</string>
+    <string name="glucide">Carbohydrates</string>
+    <string name="lipide">Lipid</string>
 
-    <string name="home1">My Progression</string>
-    <string name="home2">My Progression</string>
+    <string name="home1">Nutrition Progression</string>
+    <string name="home2">Exercice Progression</string>
 
     <string name="home_init0">Select your mood to built a mood traker</string>
     <string name="home_init1">Select your mood to built a mood traker</string>
@@ -28,8 +31,9 @@
     <string name="home_pomodoro_txt3">Manage distractions and control your time</string>
     <string name="home_pomodoro_txt4">Manage distractions and control your time</string>
 
+    <string name="dialogue_pomodoro_txt0">The Pomodoro Technique is a time management system that encourages people to work with the time they have rather than against it.</string>
     <string name="dialogue_pomodoro_txt1">Choose a task you want to work on</string>
-    <string name="dialogue_pomodoro_txt2">Set the timer to 25 minutes, the standard pomodoro duration.</string>
+    <string name="dialogue_pomodoro_txt2">Click ok,The timer is set to 25 minutes, the standard pomodoro duration.</string>
     <string name="dialogue_pomodoro_txt3">Work on the task until the timer rings, then check off your task in your to-do list.</string>
     <string name="dialogue_pomodoro_txt4">Take a short break of 5 minutes to do something not related to work like stretching, doodling, or making a call.</string>
     <string name="dialogue_pomodoro_txt5">After every 4 pomodoros, take a longer break of 20-30 minutes. This will help you clear your head, recollect your thoughts and rest before the next batch of Pomodoro-style work.</string>
@@ -112,14 +116,21 @@
         <item>Huiles, Sucre</item>
     </string-array>
 
-    <string-array name="aigu">
+    <string-array name="aigu_">
         <item>troubles digestifs</item>
         <item>Manque de concentration</item>
         <item>Agitation</item>
         <item>Tristesse</item>
     </string-array>
 
-    <string-array name="chronic">
+    <string-array name="aigu">
+        <item>digestive disorders</item>
+        <item>Lack of concentration</item>
+        <item>Agitation</item>
+        <item>Sadness</item>
+    </string-array>
+
+    <string-array name="chronic_">
 
         <item>Dépression et anxiété</item>
         <item>Douleur de toute nature</item>
@@ -134,7 +145,22 @@
 
     </string-array>
 
-    <string-array name="burnOut">
+    <string-array name="chronic">
+
+        <item>Depression and anxiety</item>
+        <item>Pain of any kind</item>
+        <item>Sleep problems</item>
+        <item>Autoimmune diseases</item>
+        <item>Digestive issues</item>
+        <item>Skin conditions, such as eczema</item>
+        <item>Heart disease</item>
+        <item>Weight problems</item>
+        <item>Reproductive issues</item>
+        <item>Thinking and memory problems</item>
+
+    </string-array>
+
+    <string-array name="burnOut_">
 
 
         <item>Se sentir fatigué et épuisé la plupart du temps</item>
@@ -156,6 +182,25 @@
         <item>Tergiverser, prendre plus de temps pour faire avancer les choses</item>
         <item>Sauter le tra</item>>
 
+    </string-array>
+
+    <string-array name="burnOut">
+        <item>Feeling tired and exhausted most of the time</item>
+        <item>Frequent headaches or muscle pain</item>
+        <item>Reduced immunity, frequent illnesses</item>
+        <item>Change in appetite or sleep</item>
+        <item>Feeling of failure and self-doubt</item>
+        <item>Loss of motivation</item>
+        <item>Feeling helpless, trapped and defeated</item>
+        <item>Increasingly cynical and negative outlook</item>
+        <item>Detachment, feeling alone in the world</item>
+        <item>satisfaction and sense of accomplishment</item>
+        <item>Withdraw from responsibilities</item>
+        <item>Consume food, drugs, or alcohol to cope</item>
+        <item>Isolate yourself from others</item>
+        <item>Take out your frustrations from others</item>
+        <item>Procrastinate, take more time to get things done</item>
+        <item>Skip the tra</item>>
     </string-array>
 
 

@@ -1003,7 +1003,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:background="@drawable/custom_button4"
+                        android:background="@drawable/logout_cutom"
                         android:text="logout"
                         android:textColor="#FFFFFF" />
                 </LinearLayout>

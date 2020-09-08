@@ -91,7 +91,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
-                                android:text="lipid" />
+                                android:text="@string/lipide" />
 
                             <TextView
                                 android:id="@+id/lipide"
@@ -113,7 +113,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
-                                android:text="Glucide" />
+                                android:text="@string/glucide" />
 
                             <TextView
                                 android:id="@+id/glucide"
@@ -135,7 +135,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="2"
-                                android:text="protine" />
+                                android:text="@string/protine" />
 
                             <TextView
                                 android:id="@+id/protine"

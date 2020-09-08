@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -22,6 +24,8 @@ public class ExplainPmodoroDialog extends AppCompatDialogFragment {
     private ExampleDialogListener listener;
     private TextInputLayout task;
     public static String task_title;
+    private TextView t1,t2;
+    private LinearLayout l1,l2;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -58,6 +62,40 @@ public class ExplainPmodoroDialog extends AppCompatDialogFragment {
                 });
 
         task = view.findViewById(R.id.task);
+        t1 = view.findViewById(R.id.learntxt);
+        t2 = view.findViewById(R.id.howtoapplypomodoro);
+        l1 = view.findViewById(R.id.learnpomodoro);
+        l2 = view.findViewById(R.id.applylayout);
+
+        t1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (l1.getVisibility() == View.VISIBLE){
+                    l1.setVisibility(View.GONE);
+                    t1.setText("Learn more");
+
+                }
+                else {
+                    l1.setVisibility(View.VISIBLE);
+                    t1.setText("Hide");
+                }
+            }
+        });
+
+        t2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (l2.getVisibility() == View.VISIBLE){
+                    l2.setVisibility(View.GONE);
+                    t2.setText("How to apply it?");
+
+                }
+                else {
+                    l2.setVisibility(View.VISIBLE);
+                    t2.setText("Hide");
+                }
+            }
+        });
 
         return builder.create();
     }

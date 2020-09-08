@@ -231,7 +231,7 @@ public class HomeFragment extends Fragment implements ExampleDialog.ExampleDialo
         phpro.setText(String.valueOf(share.getInt(PROGRESS_HOME_PHYSIQUE,0))+" Calories");
         cngpro.setText(String.valueOf(share.getInt(PROGRESS_HOME_COGNITIVE,0))+" Minutes");
 
-        center1.setText(String.valueOf(progressBar_home.getProgress())+"%");
+        center1.setText(String.valueOf((share.getInt(PROGRESS_ALIMENT,0) * 100 )/ progressBar_home.getMax())+"%");
         center2.setText(String.valueOf((share.getInt("currentWater",0) * 100 )/ progressBar_home2.getMax())+"%");
         center3.setText(String.valueOf((share.getInt(PROGRESS_HOME_PHYSIQUE,0) * 100 )/ progressBar_home3.getMax())+"%");
         center4.setText(String.valueOf((share.getInt(PROGRESS_HOME_COGNITIVE,0) * 100 )/ progressBar_home4.getMax())+"%");
@@ -593,6 +593,7 @@ public class HomeFragment extends Fragment implements ExampleDialog.ExampleDialo
         getRecList_home(size);
         for (int i = 0; i < size ; i++) {
             if (arrayListhome != null && i < arrayListhome.size()){
+                linearLayouts.get(i).setVisibility(View.VISIBLE);
                 rec_home.setVisibility(View.VISIBLE);
                 rec_eco_titre.get(i).setText(arrayListhome.get(i).getTitle());
                 rec_eco_cal.get(i).setText(String.valueOf((int) HowMuchCaloriesBurnExo(arrayListhome.get(i), (double) CalculTimeExoRec (arrayListhome.get(i)))) + " cal");
