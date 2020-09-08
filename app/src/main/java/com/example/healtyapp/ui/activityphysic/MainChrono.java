@@ -30,13 +30,14 @@ import java.util.Locale;
 public class MainChrono extends AppCompatActivity {
 
     //chrono
-    LinearLayout start,pause;
+    LinearLayout start,pause,back;
     TextView time,s,p,name;
     CountDownTimer mCountDownTimer;
     private long mTimeLeftInMillis;
     boolean mTimerRunning;
     double x;
     User user;
+    public static double homex = 0;
 
     //show Activity
     public static ExercicePhysique exercicePhysique;
@@ -49,9 +50,9 @@ public class MainChrono extends AppCompatActivity {
     TextView text_etaps;
 
     //manipulate progress
-    SharedPreferences share;
-    final String SHARE = MainMyMenu.Share;
-    static final String PROGRESS = MainMyMenu.PROGRESS_PHYSIQUE;
+    private SharedPreferences share;
+    private final String SHARE = MainMyMenu.Share;
+    private static final String PROGRESS_PHYSIQUE = MainMyMenu.PROGRESS_PHYSIQUE;
 
     //today
     Calendar calSelected = Calendar.getInstance();
@@ -64,11 +65,23 @@ public class MainChrono extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_chrono);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
 
         share  = getSharedPreferences(SHARE,MODE_PRIVATE);
 
         user = MainMyMenu.user;
-        x = getIntent().getDoubleExtra("Time", 0) * 60000;
+        if (homex > 0)
+            x = homex * 60000;
+        else
+            x = getIntent().getDoubleExtra("Time", 0) * 60000;
+
         caloories = findViewById(R.id.chrono_burned);
         time = findViewById(R.id.chrono);
         start = findViewById(R.id.chrono_start);
@@ -153,13 +166,13 @@ public class MainChrono extends AppCompatActivity {
                 activityPhUser1.setDuree((int)x/60000);
                 activityPhUser1.setExercicePhysique(exercicePhysique);
                 addatabase(activityPhUser1);
-                add_database_progress();
+
                 update_progress_physique(activityPhUser1.getCalories_burned());
 
                 //make changes at  user progress
                 //ActivityphysicFragment.progressBar.setProgress(ActivityphysicFragment.progressBar.getProgress()+activityPhUser1.getCalories_burned());
                 ActivityphysicFragment.whatburned.setText(String.valueOf(Integer.parseInt(ActivityphysicFragment.whatburned.getText().toString())+activityPhUser1.getCalories_burned()));
-
+                add_database_progress();
                 startActivity(new Intent(MainChrono.this, AfterExo.class));
                 finish();
             }
@@ -188,20 +201,18 @@ public class MainChrono extends AppCompatActivity {
     }
 
     private void add_database_progress() {
-        //Toast.makeText(this, "user: "+user.getIdUser()+" today: "+today, Toast.LENGTH_LONG).show();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(user.getIdUser()).child(today).child("Progressions").child("Physique");
-        //mDatabase.setValue(share.getInt(PROGRESS,0));
-        mDatabase.setValue((ActivityphysicFragment.progressBar.getProgress() * 100) / ActivityphysicFragment.progressBar.getMax());
+        mDatabase.setValue( share.getInt(PROGRESS_PHYSIQUE,0));
     }
 
     private void update_progress_physique(int progress) {
 
         //edit share
         SharedPreferences.Editor editor = share.edit();
-        editor.putInt(PROGRESS,  (share.getInt(PROGRESS,0) + progress));
+        editor.putInt(PROGRESS_PHYSIQUE,  (share.getInt(PROGRESS_PHYSIQUE,0) + progress));
         editor.apply();
 
-        ActivityphysicFragment.progressBar.setProgress(share.getInt(PROGRESS,0));
+        ActivityphysicFragment.progressBar_physique.setProgress(share.getInt(PROGRESS_PHYSIQUE,0));
         //progress.setprogress(min + sec/60)
     }
 

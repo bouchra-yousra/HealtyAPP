@@ -1,4 +1,4 @@
-package com.example.healtyapp.ui.nuttrision;
+package com.example.healtyapp.ui.nutrition;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -12,16 +12,20 @@
     </item>
 
     <item>
-
-        <shape xmlns:android="http://schemas.android.com/apk/res/android"
-
-            android:shape="ring"
-            android:innerRadiusRatio="2.5"
-
-            android:thickness="10dp"
-            android:useLevel="true">
-            <solid android:color="@color/c4" />
-        </shape>
+        <rotate
+            android:fromDegrees="270"
+            android:toDegrees="270">
+            <shape xmlns:android="http://schemas.android.com/apk/res/android"
+                android:shape="ring"
+                android:innerRadiusRatio="2.5"
+                android:thickness="10dp"
+                android:useLevel="true">
+                <gradient
+                    android:endColor="@color/colorAccent4"
+                    android:startColor="@color/colorAccent4"
+                    android:type="sweep" />
+            </shape>
+        </rotate>
     </item>
 
 </layer-list>

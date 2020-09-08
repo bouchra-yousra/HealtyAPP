@@ -2,9 +2,10 @@ package com.example.healtyapp.module;
 
 public class Sport extends ObjectiveUser {
     public static final String titre = "Be More Sporty";
-    static final int a = 34;
-    static final int b = 3;
-    static final int c = 2;
+    static final int a = 4;
+    static final int b = 2;
+    static final int c = 3;
+    static final int d = 3;
 
     public Sport() {
         super(titre);
@@ -12,5 +13,9 @@ public class Sport extends ObjectiveUser {
 
     public static int calcul_progression (int activite_physique,int activivte_cognitive,int activite_nutrition) {
         return (activite_physique * a + activivte_cognitive * b + activite_nutrition * c) / (a+b+c);
+    }
+
+    public static int calcul_progression (int activite_physique,int activivte_cognitive,int activite_nutrition,int water_activity) {
+        return (activite_physique * a + activivte_cognitive * b + activite_nutrition * c+ water_activity * d) / (a+b+c+d);
     }
 }

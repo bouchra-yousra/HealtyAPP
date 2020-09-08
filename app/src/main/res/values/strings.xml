@@ -1,6 +1,41 @@
 <resources>
     <string name="app_name">Health Center</string>
 
+
+    <string name="home1">My Progression</string>
+    <string name="home2">My Progression</string>
+
+    <string name="home_init0">Select your mood to built a mood traker</string>
+    <string name="home_init1">Select your mood to built a mood traker</string>
+    <string name="home_init2">Select your mood to built a mood traker</string>
+
+    <string name="home_init_titre1">Balance your Nutrition</string>
+    <string name="home_init_titre2">Balance your Activities</string>
+
+
+    <string name="home_nutrition_txt1">Your Energy Need</string>
+    <string name="home_nutrition_txt2">Go to Nutrition</string>
+    <string name="home_nutrition_txt3"> To track your calories progresion</string>
+
+    <string name="home_weight_traker_txt1">Do you have an ideal weight?</string>
+    <string name="home_weight_traker_txt2">All you have to do is to update your weight every week, to get your weight progression</string>
+
+    <string name="home_mood_traker_txt1">Do want to built a mood traker?</string>
+    <string name="home_mood_traker_txt2">Select your mood to built a mood traker</string>
+
+    <string name="home_pomodoro_txt1">Staying focused at work isn\'t easy!</string>
+    <string name="home_pomodoro_txt2">Improve your productivity by using the Pomodoro Technique</string>
+    <string name="home_pomodoro_txt3">Manage distractions and control your time</string>
+    <string name="home_pomodoro_txt4">Manage distractions and control your time</string>
+
+    <string name="dialogue_pomodoro_txt1">Choose a task you want to work on</string>
+    <string name="dialogue_pomodoro_txt2">Set the timer to 25 minutes, the standard pomodoro duration.</string>
+    <string name="dialogue_pomodoro_txt3">Work on the task until the timer rings, then check off your task in your to-do list.</string>
+    <string name="dialogue_pomodoro_txt4">Take a short break of 5 minutes to do something not related to work like stretching, doodling, or making a call.</string>
+    <string name="dialogue_pomodoro_txt5">After every 4 pomodoros, take a longer break of 20-30 minutes. This will help you clear your head, recollect your thoughts and rest before the next batch of Pomodoro-style work.</string>
+
+
+
     <string name="username">username</string>
     <string name="password">password</string>
 
@@ -47,11 +82,12 @@
     <string name="title_profile">Profil</string>
 
     <string-array name="maladie">
-        <item>m1</item>
-        <item>m2</item>
-        <item>m3</item>
-        <item>m4</item>
-        <item>m5</item>
+        <item>None</item>
+        <item>Asthma</item>
+        <item>Hypertension</item>
+        <item>Diabetes</item>
+        <item>Cardiac disease</item>
+        <item>Other</item>
     </string-array>
 
 

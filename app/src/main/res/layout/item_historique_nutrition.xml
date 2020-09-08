@@ -21,8 +21,10 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
                 android:shadowColor="@color/black"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"

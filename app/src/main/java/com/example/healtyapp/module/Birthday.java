@@ -1,6 +1,7 @@
 package com.example.healtyapp.module;
 
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Birthday {
@@ -116,4 +117,5 @@ public class Birthday {
     public void setYear(int year) {
         this.year = year;
     }
+
 }

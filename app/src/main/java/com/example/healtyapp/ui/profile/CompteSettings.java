@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healtyapp.R;
@@ -32,11 +34,13 @@ import java.util.Calendar;
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class CompteSettings extends AppCompatActivity implements DialogueChangePassword.ExampleDialogListener, DatePickerDialog.OnDateSetListener {
 
+    private static final String  TAG = "Profil";
 
     EditText firstname, lastname, username,taille, poid;
     Button modifier, change_password;
-    LinearLayout birthday;
+    LinearLayout birthday,back;
     LinearLayout homme,femme;
+    TextView age;
     boolean h,f;
 
     //data
@@ -48,17 +52,26 @@ public class CompteSettings extends AppCompatActivity implements DialogueChangeP
 
     String password;
 
+    @SuppressLint("ResourceType")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sous_activity_compte_settings);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         firstname = findViewById(R.id.editTextFirstName);
         lastname = findViewById(R.id.editTextLastName);
         username = findViewById(R.id.editTextUsername);
         taille = findViewById(R.id.editTextTaille);
         poid = findViewById(R.id.editTextPoid);
+        age = findViewById(R.id.Age);
 
         birthday = findViewById(R.id.birthday);
         birthday.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +184,12 @@ public class CompteSettings extends AppCompatActivity implements DialogueChangeP
         return true;
     }
 
+    private boolean validePassword(String password) {
+        if (password.length()>8)
+            return true;
+        return false;
+    }
+
     void change_user () {
         if (verifier_text(firstname, 10))
             user.setFirst_name(firstname.getText().toString());
@@ -191,8 +210,8 @@ public class CompteSettings extends AppCompatActivity implements DialogueChangeP
                 && verifier_text(lastname, 10)
                 && verifier_text(username, 10)
                 && verifier_number(poid, 2,150,25)
-                && verifier_number(taille, 3,250,125)))
-            Toast.makeText(getApplicationContext(),"Check again please",Toast.LENGTH_SHORT).show();
+                && verifier_number(taille, 3,250,125))){
+            Toast.makeText(getApplicationContext(),"Check again please",Toast.LENGTH_SHORT).show();}
         else {
             MainMyMenu.user = this.user;
             ProfileFragment.user = this.user;
@@ -205,6 +224,7 @@ public class CompteSettings extends AppCompatActivity implements DialogueChangeP
         username.setText(user.getUsername());
         poid.setText(user.getPoids());
         taille.setText(user.getTaille());
+        age.setText(user.getAge()+" YO");
     }
 
     public void openDialog() {
@@ -214,7 +234,7 @@ public class CompteSettings extends AppCompatActivity implements DialogueChangeP
 
     @Override
     public void applyTexts(String old_password, String password) {
-        if (user.getPassword().equals(old_password)){
+        if (user.getPassword().equals(old_password) && validePassword (password)){
             user.setPassword(password);
             path = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getIdUser()).child("password");
             path.setValue(password);
@@ -223,6 +243,7 @@ public class CompteSettings extends AppCompatActivity implements DialogueChangeP
             Toast.makeText(getApplicationContext(),"Try again",Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
@@ -235,7 +256,9 @@ public class CompteSettings extends AppCompatActivity implements DialogueChangeP
         //textView.setText(currentDateString);
         if(verifier_date(7,c)) {
             Birthday b = new Birthday(c);
-           user.setBirthday_(b.getDay()+";"+b.getMonth()+";"+b.getYear()+";");
+            //user.setBirthday_(b.getDay()+";"+b.getMonth()+";"+b.getYear()+";");
+            user.setAge(String.valueOf(user.getAgeFromBirthday(b)));
+            age.setText(user.getAge()+" YO");
         }
     }
 
@@ -253,4 +276,5 @@ public class CompteSettings extends AppCompatActivity implements DialogueChangeP
         }
         return  arrayList;
     }
+
 }

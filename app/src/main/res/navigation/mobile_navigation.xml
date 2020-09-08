@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_nuttrision"
-        android:name="com.example.healtyapp.ui.nuttrision.NutritionFragment"
+        android:name="com.example.healtyapp.ui.nutrition.NutritionFragment"
         android:label="@string/title_nuttrision"
         tools:layout="@layout/activity_nuttrision" />
 

@@ -1,5 +1,8 @@
 package com.example.healtyapp.ui.profile;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,10 +29,15 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.healtyapp.Enumeration.gender;
+import com.example.healtyapp.database_item.AlimentData;
 import com.example.healtyapp.module.BienEtre;
 import com.example.healtyapp.module.ExercicePhysique;
 import com.example.healtyapp.module.PreventionBurnOut;
 import com.example.healtyapp.module.Sport;
+import com.example.healtyapp.ui.activitymorale.ActivitymoraleFragment;
+import com.example.healtyapp.ui.activityphysic.ActivityphysicFragment;
+import com.example.healtyapp.ui.home.HomeFragment;
+import com.example.healtyapp.ui.nutrition.NutritionFragment;
 import com.example.healtyapp.vue.center_activities.MainActivity;
 import com.example.healtyapp.vue.center_activities.MainMyMenu;
 import com.example.healtyapp.adapter.ObjectifAdapter;
@@ -49,9 +58,11 @@ import java.util.Calendar;
 
 public class ProfileFragment extends Fragment {
 
+//    private FragmentAListener listener;
+    private static final String  TAG = "Profil";
     private ProfileViewModel profileViewModel;
     public static User user = new User();
-    private TextView txt_poids, txt_taille, txt_bday, txt_fname, txt_lname, txt_sexe;
+    private TextView txt_poids, txt_taille, txt_bday, txt_fname, txt_lname, txt_sexe,progress_txt;
 
     private Objectifitem obj;
     private ObjectifAdapter adapt_obj;
@@ -75,6 +86,8 @@ public class ProfileFragment extends Fragment {
     final String SHARE2 = MainActivity.MyUser;
     static final String PROGRESS= MainMyMenu.PROGRESS_COGNITIVE;
 
+    int taux1 = 0,taux2 = 0,taux3 = 0;
+
     //data
     private FirebaseAuth myAuth;
     DatabaseReference databaseReference;
@@ -82,9 +95,6 @@ public class ProfileFragment extends Fragment {
     //week progress
     TextView t1,t2,t3,t4,t5,t6,t7;
     ProgressBar p1,p2,p3,p4,p5,p6,p7;
-    ProgressBar a1,a2,a3,
-                b1,b2,b3,
-                c1,c2,c3;
 
     //today
     Calendar calSelected = Calendar.getInstance();
@@ -99,6 +109,7 @@ public class ProfileFragment extends Fragment {
         profileViewModel =
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
         View root = inflater.inflate(R.layout.activity_profile, container, false);
+        root.setTag(TAG);
 
         profileViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -124,7 +135,7 @@ public class ProfileFragment extends Fragment {
         txt_lname = root.findViewById(R.id.last_name);
         txt_lname.setText(user.getLast_name());
         txt_bday = root.findViewById(R.id.date_naiss);
-        txt_bday.setText(user.getAge());
+        txt_bday.setText(user.getAge()+" YO");
         txt_poids = root.findViewById(R.id.poid);
         txt_poids.setText(user.getPoids());
         txt_taille = root.findViewById(R.id.taille);
@@ -135,8 +146,9 @@ public class ProfileFragment extends Fragment {
         ishomme = root.findViewById(R.id.ishomme);
         gerer_img_gender();
 
-        set_obj = root.findViewById(R.id.set_goal);
+        findUser();
 
+        set_obj = root.findViewById(R.id.set_goal);
         set_obj.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -173,42 +185,6 @@ public class ProfileFragment extends Fragment {
         //generate liste de type objectif item
         put_list_obj();
 
-        /*
-        a1 = root.findViewById(R.id.progress_physique1);
-        a2 = root.findViewById(R.id.progress_physique2);
-        a3 = root.findViewById(R.id.progress_physique3);
-        b1 = root.findViewById(R.id.progress_cognitive1);
-        b2 = root.findViewById(R.id.progress_cognitive2);
-        b3 = root.findViewById(R.id.progress_cognitive3);
-        c1 = root.findViewById(R.id.progress_nutrition1);
-        c2 = root.findViewById(R.id.progress_nutrition2);
-        c3 = root.findViewById(R.id.progress_nutrition3);
-
-        a1.setProgress(0);
-        a2.setProgress(0);
-        a3.setProgress(0);
-
-        change_progress (a1,0);
-        change_progress (a2,0);
-        change_progress (a3,0);
-        change_progress (b1,0);
-        change_progress (b2,0);
-        change_progress (b3,0);
-        change_progress (c1,0);
-        change_progress (c2,0);
-        change_progress (c3,0);*/
-        /*
-        objectif = root.findViewById(R.id.list_objectif);
-        adapt_obj = new ObjectifAdapter(root.getContext(),R.layout.item_objectif,arrayList);
-
-        //layout de la liste des objectif (listeView)
-        layoutParams = objectif.getLayoutParams();
-        get_hight_layout ();
-        adapt_obj.notifyDataSetChanged();
-        objectif.setAdapter(null);
-        objectif.setAdapter(adapt_obj);
-        */
-
         //Toast.makeText(getContext(),user.getFirst_name(),Toast.LENGTH_SHORT).show();
         int a,b,c,d,e;
 
@@ -227,8 +203,6 @@ public class ProfileFragment extends Fragment {
                 case 1: {
                     a = R.id.obj2;
                     b = R.id.progress_physique2;
-                    c = R.id.progress_cognitive2;
-                    d = R.id.progress_nutrition2;
                     e = R.id.layoutobj2;
                     obj1 = true;
                     break;
@@ -236,8 +210,6 @@ public class ProfileFragment extends Fragment {
                 case 2: {
                     a = R.id.obj3;
                     b = R.id.progress_physique3;
-                    c = R.id.progress_cognitive3;
-                    d = R.id.progress_nutrition3;
                     e = R.id.layoutobj3;
                     obj2 = true;
                     break;
@@ -245,8 +217,6 @@ public class ProfileFragment extends Fragment {
                 default: {
                     a = R.id.obj1;
                     b = R.id.progress_physique1;
-                    c = R.id.progress_cognitive1;
-                    d = R.id.progress_nutrition1;
                     e = R.id.layoutobj1;
                 }
             }
@@ -255,9 +225,12 @@ public class ProfileFragment extends Fragment {
             textView.setText(String.valueOf(i));
 
             ProgressBar p1 = root.findViewById(b);
-            ProgressBar p2 = root.findViewById(c);
-            ProgressBar p3 = root.findViewById(d);
-            display_item(arrayList.get(i),textView,p1,p2,p3,l);
+            //ProgressBar p2 = root.findViewById(c);
+            //ProgressBar p3 = root.findViewById(d);
+            display_item(arrayList.get(i),textView,p1,l);
+
+            progress_txt = root.findViewById(R.id.progress_txt);
+
         }
 
         l1 = root.findViewById(R.id.layout_profil_obj1);
@@ -283,7 +256,6 @@ public class ProfileFragment extends Fragment {
         t5 = root.findViewById(R.id.txt5);
         t6 = root.findViewById(R.id.txt6);
         t7 = root.findViewById(R.id.txt7);
-
         gerer_affichage_txt_week ();
 
         return root;
@@ -329,7 +301,8 @@ public class ProfileFragment extends Fragment {
         t4.setText(arrayList.get(3));
         t5.setText(arrayList.get(4));
         t6.setText(arrayList.get(5));
-        t7.setText(arrayList.get(6));
+        //t7.setText(arrayList.get(6));
+        t7.setText("Today");
 
         int key1 = calSelected.get(Calendar.DAY_OF_MONTH);
         String key2 = "" + (calSelected.get(Calendar.MONTH) + 1)
@@ -377,7 +350,7 @@ public class ProfileFragment extends Fragment {
     //list objectif
     void put_list_obj(){
         for (int i = 0;i < user.getObjectifs().size(); i++){
-            obj = new Objectifitem(user.getObjectifs().get(i),30,30,30);
+            obj = new Objectifitem(user.getObjectifs().get(i),0,0,0);
             arrayList.add(obj);
         }
     }
@@ -390,18 +363,15 @@ public class ProfileFragment extends Fragment {
         objectif.setLayoutParams(layoutParams);
     }
 
-    void display_item(Objectifitem object, TextView name, ProgressBar physique, ProgressBar cognitive, ProgressBar nutrition, LinearLayout l) {
+    void display_item(Objectifitem object, TextView name, ProgressBar physique, LinearLayout l) {
         name.setText(object.getName());
         l.setVisibility(View.VISIBLE);
+        getHistory_Taux_Progress (object.name,physique);
 
-        getHistory_all_Progress_parobj(physique,cognitive,nutrition);
+        //getHistory_Taux_Progress_parobj(object.name,physique);
         object.setProgress_physique(physique.getProgress());
-        object.setProgress_cognitive(cognitive.getProgress());
-        object.setProgress_nutrition(nutrition.getProgress());
-
         physique.setProgress(object.getProgress_physique());
-        cognitive.setProgress(object.getProgress_cognitive());
-        nutrition.setProgress(object.getProgress_nutrition());
+
     }
 
     void click_obj (View textView, final View layout, Boolean obj,final View layout1,final View layout2) {
@@ -432,13 +402,29 @@ public class ProfileFragment extends Fragment {
         SharedPreferences.Editor edit1 = share.edit();
         SharedPreferences.Editor edit2 = share2.edit();
 
+        edit1.remove(MainMyMenu.PROGRESS_COGNITIVE_TIME);
+        edit1.remove(MainMyMenu.PROGRESS_COGNITIVE);
+        edit1.remove(MainMyMenu.PROGRESS_WATER);
+        edit1.remove(MainMyMenu.PROGRESS_NUTRITION);
+        edit1.remove(MainMyMenu.PROGRESS_PHYSIQUE);
         edit1.clear();
         edit1.apply();
 
         edit2.clear();
         edit2.apply();
+        clean_progress();
+
         FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getActivity(),MainActivity.class));
         getActivity().finish();
+    }
+
+    void clean_progress () {
+        ActivityphysicFragment.progressBar_physique.setProgress(0);
+        ActivitymoraleFragment.progressBar_cognitive.setProgress(0);
+        HomeFragment.progressBar_home.setProgress(0);
+        NutritionFragment.progressBar.setProgress(0);
+        NutritionFragment.progressBareau.setProgress(0);
     }
 
     //DATA : week progress
@@ -449,7 +435,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    int proph = 0,progn = 0,pronut = 0,prowt = 0;
+                    int proph = 0,progn = 0,pronut = 0,prowt = 0;;
 
                     if (dataSnapshot.child("Cognitive").exists())
                         progn = dataSnapshot.child("Cognitive").getValue(Integer.class);
@@ -463,16 +449,30 @@ public class ProfileFragment extends Fragment {
                     if (dataSnapshot.child("Water").exists())
                         prowt = dataSnapshot.child("Water").getValue(Integer.class);
 
-                    updateProgress (key, calcul_progress(proph,progn,pronut));
+
+                    /* updateProgress (key, calcul_progress(convertCalorieToProgressPhysique(proph),
+                            convertDurationToProgress (progn),
+                            convertCalorieToProgressNutrition(pronut)));*/
+
+                    int a = convertCalorieToProgressPhysique(proph);
+                    int b = convertDurationToProgress(progn);
+                    int c = convertCalorieToProgressNutrition(pronut);
+                    updateProgress (key, calcul_progress(a,b,c));
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-        //
     }
+
+    private int convertDurationToProgress(int progn) {
+        return (progn * 100) / 60;
+    }
+
+    private int convertCalorieToProgressPhysique(int pro) { return (pro * 100) / share.getInt("MAX1",1); }
+
+    private int convertCalorieToProgressNutrition(int pro) { return (pro * 100) / share.getInt("MAX2",1); }
 
     public void getHistory_Taux_Progress_parobj (String titre, final ProgressBar progressBar){
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Objectif").child("ObjectiveUser").child(MainMyMenu.user.getIdUser()).child(titre);
@@ -497,33 +497,83 @@ public class ProfileFragment extends Fragment {
         //
     }
 
-    public void getHistory_all_Progress_parobj (final ProgressBar pro1, final ProgressBar pro2, final ProgressBar pro3){
+    public void getHistory_Taux_Progress (final String obj, final ProgressBar p){
         databaseReference = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(MainMyMenu.user.getIdUser());
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int taux = 0;
+                int nb = 0;
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    if (dataSnapshot.exists()) {
+                        int proph = 0,progn = 0,pronut = 0,prowt = 0;
+
+                        //get all progression
+                        if (snapshot.child("Progressions").child("Cognitive").exists())
+                            progn = snapshot.child("Progressions").child("Cognitive").getValue(Integer.class);
+
+                        if (snapshot.child("Progressions").child("Nutrition").exists())
+                            pronut = snapshot.child("Progressions").child("Nutrition").getValue(Integer.class);
+
+                        if (snapshot.child("Progressions").child("Physique").exists())
+                            proph = snapshot.child("Progressions").child("Physique").getValue(Integer.class);
+
+                        if (snapshot.child("Progressions").child("Water").exists())
+                            prowt = snapshot.child("Progressions").child("Water").getValue(Integer.class);
+
+
+                        //calcul taux per day selon obj
+                        switch (obj) {
+                            case Sport.titre:
+                                nb++;
+                                taux += Sport.calcul_progression(convertCalorieToProgressPhysique(proph),
+                                        convertDurationToProgress (progn),
+                                        convertCalorieToProgressNutrition(pronut));
+                                break;
+                            case BienEtre.titre:
+                                nb++;
+                                taux += BienEtre.calcul_progression(convertCalorieToProgressPhysique(proph),
+                                        convertDurationToProgress (progn),
+                                        convertCalorieToProgressNutrition(pronut));
+                                break;
+                            case PreventionBurnOut.titre:
+                                nb++;
+                                taux += PreventionBurnOut.calcul_progression(convertCalorieToProgressPhysique(proph),
+                                        convertDurationToProgress (progn),
+                                        convertCalorieToProgressNutrition(pronut));
+                                break;
+                        }
+                    }
+                }
+                if(nb == 0)
+                    nb = 1;
+
+                p.setProgress(taux / nb);
+                animate_progressbar(p);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+/*    public void getHistory_all_Progress_parobj (final ProgressBar pro1,String objectif){
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Objectif").child("ObjectiveUser").child(MainMyMenu.user.getIdUser()).child(objectif);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        int proph = 0,progn = 0,pronut = 0,prowt = 0;
+                        int pro = 0;
+                        String date;
 
-                        if (snapshot.child("Progressions").exists()) {
-                            if (snapshot.child("Progressions").child("Cognitive").exists())
-                                progn = snapshot.child("Progressions").child("Cognitive").getValue(Integer.class);
-
-                            if (snapshot.child("Progressions").child("Nutrition").exists())
-                                pronut = snapshot.child("Progressions").child("Nutrition").getValue(Integer.class);
-
-                            if (snapshot.child("Progressions").child("Physique").exists())
-                                proph = snapshot.child("Progressions").child("Physique").getValue(Integer.class);
-
-                            if (snapshot.child("Progressions").child("Water").exists())
-                                prowt = snapshot.child("Progressions").child("Water").getValue(Integer.class);
+                        if (snapshot.child("taux_progression").exists()) {
+                            pro = snapshot.child("Progressions").child("Cognitive").getValue(Integer.class);
                         }
-
-                        pro1.setProgress(pro1.getProgress()+proph);
-                        pro2.setProgress(pro2.getProgress()+progn);
-                        pro3.setProgress(pro3.getProgress()+pronut);
+                        pro1.setProgress(pro);
                     }
                 }
             }
@@ -534,8 +584,9 @@ public class ProfileFragment extends Fragment {
         });
         //
     }
+*/
 
-
+    //progression (jour)
     private int calcul_progress(int proph, int progn, int pronut) {
         int total = 0, nb = 0;
 
@@ -563,13 +614,58 @@ public class ProfileFragment extends Fragment {
 
     private  void updateProgress (int key, int taux) {
         switch (key) {
-            case 1: p1.setProgress (taux) ;break;
-            case 2: p2.setProgress (taux) ;break;
-            case 3: p3.setProgress (taux) ;break;
-            case 4: p4.setProgress (taux) ;break;
-            case 5: p5.setProgress (taux) ;break;
-            case 6: p6.setProgress (taux) ;break;
-            case 7: p7.setProgress (taux) ;break;
+            case 1: p1.setProgress (taux) ;animate_progressbar(p1);break;
+            case 2: p2.setProgress (taux) ;animate_progressbar(p2);break;
+            case 3: p3.setProgress (taux) ;animate_progressbar(p3);break;
+            case 4: p4.setProgress (taux) ;animate_progressbar(p4);break;
+            case 5: p5.setProgress (taux) ;animate_progressbar(p5);break;
+            case 6: p6.setProgress (taux) ;animate_progressbar(p6);break;
+            case 7: p7.setProgress (taux) ;animate_progressbar(p7);progress_txt.setText(String.valueOf(taux));break;
         }
+    }
+
+    //ANIMATION
+    private void animate_progressbar (final ProgressBar p) {
+        final ObjectAnimator objectAnimator = ObjectAnimator.ofInt(p,"progress",0,p.getProgress());
+        objectAnimator.setDuration(1500);
+
+        objectAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                super.onAnimationCancel(animation);
+                p.setVisibility(View.GONE);
+            }
+        });
+
+        objectAnimator.start();
+    }
+
+    public void updateuser() {
+
+        txt_fname.setText(user.getFirst_name());
+        txt_lname.setText(user.getLast_name());
+        txt_bday.setText(user.getAge()+" YO");
+        txt_poids.setText(user.getPoids());
+        txt_taille.setText(user.getTaille());
+        txt_sexe.setText(user.getSexe());
+        gerer_img_gender();
+        put_list_obj();
+    }
+
+    void findUser () {
+        DatabaseReference myDataBase = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getIdUser());
+        myDataBase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User user1 = new User();
+                if (dataSnapshot.exists())
+                    user1 = dataSnapshot.getValue(User.class);
+                user = user1;
+                updateuser();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 }

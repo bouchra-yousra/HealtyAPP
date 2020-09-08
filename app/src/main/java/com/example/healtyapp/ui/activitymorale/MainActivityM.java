@@ -39,7 +39,7 @@ public class MainActivityM extends AppCompatActivity {
     Button show;
 
     //chrono
-    LinearLayout start,pause;
+    LinearLayout start,pause,back;
     TextView time,s,p,name;
     CountDownTimer mCountDownTimer;
     private long mTimeLeftInMillis;
@@ -49,8 +49,8 @@ public class MainActivityM extends AppCompatActivity {
     //manipulate progress
     SharedPreferences share;
     final String SHARE = MainMyMenu.Share;
-    static final String PROGRESS = MainMyMenu.PROGRESS_COGNITIVE;
-    static final String PROGRESS_TIME = MainMyMenu.PROGRESS_COGNITIVE_TIME;
+    private static final String PROGRESS = MainMyMenu.PROGRESS_COGNITIVE;
+    private static final String PROGRESS_TIME = MainMyMenu.PROGRESS_COGNITIVE_TIME;
 
     //private final String userid = getSharedPreferences(MainActivity.MyUser, MODE_PRIVATE).getString("UserId",MainMyMenu.user.getIdUser());
 
@@ -71,6 +71,14 @@ public class MainActivityM extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_m);
         setTitle("Cognitive Exercise");
+
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         share = getSharedPreferences(SHARE,MODE_PRIVATE);
 
@@ -257,7 +265,7 @@ public class MainActivityM extends AppCompatActivity {
     private void add_database_progress() {
         //Toast.makeText(this, "user: "+user.getIdUser()+" today: "+today, Toast.LENGTH_LONG).show();
         path = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(user.getIdUser()).child(today).child("Progressions").child("Cognitive");
-        path.setValue((share.getInt(PROGRESS,0) * 100) / 60);
+        path.setValue((share.getInt(PROGRESS,0))); //on ajout la duree
     }
 
     //__share data
@@ -271,14 +279,15 @@ public class MainActivityM extends AppCompatActivity {
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         ActivitymoraleFragment.time_progress.setText(timeLeftFormatted);
 
-        add_database_progress();
+
         //edit share
         SharedPreferences.Editor editor = share.edit();
         editor.putInt(PROGRESS, share.getInt(PROGRESS, 0) + duree);
         editor.putLong(PROGRESS_TIME,result_time);
         editor.apply();
         Toast.makeText(this, "duree tot" + share.getInt(PROGRESS, 0), Toast.LENGTH_LONG).show();
-
-        ActivitymoraleFragment.progressBar_cognitive.setProgress(duree);
+        
+        ActivitymoraleFragment.progressBar_cognitive.setProgress(share.getInt(PROGRESS,0));
+        add_database_progress();
     }
 }

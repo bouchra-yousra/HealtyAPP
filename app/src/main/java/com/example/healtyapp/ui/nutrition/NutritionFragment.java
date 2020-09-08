@@ -1,5 +1,8 @@
-package com.example.healtyapp.ui.nuttrision;
+package com.example.healtyapp.ui.nutrition;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -26,17 +29,22 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.healtyapp.database_item.Aliment;
 import com.example.healtyapp.database_item.AlimentData;
+import com.example.healtyapp.dialogue.DialogueAlimentInfos;
+import com.example.healtyapp.dialogue.MoodDialog;
 import com.example.healtyapp.module.User;
 import com.example.healtyapp.systeme.MainAddActPh;
+import com.example.healtyapp.vue.center_activities.MainActivity;
 import com.example.healtyapp.vue.center_activities.MainMyMenu;
 import com.example.healtyapp.R;
 import com.example.healtyapp.ui.home.HomeFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -52,12 +60,12 @@ public class NutritionFragment extends Fragment {
 
   Button add_to_circle,water_traker_btn;
   Button clear;
-
   Button click;
+
   public static ProgressBar progressBar,progressBareau;
   EditText quantite;
   Spinner spinner;
-  Button addt;
+  Button addt,showAlimentInfos;
 
   TextView total,current,besoin_eau,conso_eau,center_water,center_food;
 
@@ -73,9 +81,10 @@ public class NutritionFragment extends Fragment {
   User user = MainMyMenu.user;
 
   //manipulate progress
-  SharedPreferences share;
-  final String SHARE = MainMyMenu.Share;
-  static final String PROGRESS= MainMyMenu.PROGRESS_COGNITIVE;
+  private SharedPreferences share;
+  private final String SHARE = MainMyMenu.Share;
+  private static final String PROGRESS_ALIMENT= MainMyMenu.PROGRESS_NUTRITION;
+  private static final String PROGRESS_WATER= MainMyMenu.PROGRESS_WATER;
 
   //today
   Calendar calSelected = Calendar.getInstance();
@@ -135,6 +144,12 @@ public class NutritionFragment extends Fragment {
     go = root.findViewById(R.id.go);
     maxKca = (int) MainMyMenu.kca;
     maxEau = (int) MainMyMenu.bes_eau;
+
+    if(maxKca == 0)
+      maxKca = (int) user.getBesoin_energy();
+    if(maxEau == 0)
+      maxEau = (int) user.getBesoin_eau();
+
     conso_eau = root.findViewById(R.id.consoeau);
     current = root.findViewById(R.id.newcl);
     total = root.findViewById(R.id.maxcl);
@@ -142,7 +157,6 @@ public class NutritionFragment extends Fragment {
     besoin_eau.setText(String.valueOf(maxEau)+" MiliLitres");
     total.setText(String.valueOf(maxKca)+" Calories");
     spinner = root.findViewById(R.id.spinner_t);
-
 
     txt = root.findViewById(R.id.the_other_txt);
     glass = root.findViewById(R.id.the_glass);
@@ -212,16 +226,28 @@ public class NutritionFragment extends Fragment {
 
     progressBareau.setMax(maxEau);
     progressBar.setMax(maxKca);
+    HomeFragment.progressBar_home.setMax(maxKca);
 
-    HomeFragment.progressBar.setMax(maxKca);
+    /*
+    if (progressBar.getProgress() == 0) {
+      getHistory_nutpro(progressBar,current);
+      HomeFragment.progressBar_home.setProgress(progressBar.getProgress());
+      Updates_nut(progressBar.getProgress());
+    */
+      progressBar.setProgress(share.getInt("currentKca",0));
+      HomeFragment.progressBar_home.setProgress(share.getInt("currentKca",0));
+      current.setText(String.valueOf(share.getInt("currentKca",0)));
 
-    conso_eau.setText(String.valueOf(share.getInt("currentWater",0)));
-    current.setText(String.valueOf(share.getInt("currentKca",0)));
+  /*
+    if(progressBareau.getProgress() == 0) {
+      getHistory_water(progressBareau,progressBareau.getMax(),conso_eau);
+      Updates_water(progressBareau.getProgress());
+    */
+      progressBareau.setProgress(share.getInt("currentWater",0));
+      conso_eau.setText(String.valueOf(share.getInt("currentWater",0)));
+      //animate_progressbar_(progressBar,progressBar.getProgress());
+      //animate_progressbar_(progressBareau,progressBareau.getProgress());
 
-    progressBar.setProgress(share.getInt("currentKca",0));
-    HomeFragment.progressBar.setProgress(share.getInt("currentKca",0));
-
-    progressBareau.setProgress(share.getInt("currentWater",0));
     click = root.findViewById(R.id.click);
 
     center_food.setText(String.valueOf((progressBar.getProgress()*100) / progressBar.getMax()));
@@ -241,6 +267,13 @@ public class NutritionFragment extends Fragment {
       }
     });
 
+    showAlimentInfos = root.findViewById(R.id.show_aliment_infos);
+    showAlimentInfos.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        openAlimentNut();
+      }
+    });
 
     show.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -265,6 +298,7 @@ public class NutritionFragment extends Fragment {
         txt.setVisibility(View.VISIBLE);
         other_water.setVisibility(View.GONE);
         gerer_watertraker(glass,bottle,water,25);
+        cliked_water = true;
       }
     });
 
@@ -306,68 +340,13 @@ public class NutritionFragment extends Fragment {
         Updates_water(share.getInt("currentWater",0)+quantite_water);
         progressBareau.setProgress(share.getInt("currentWater",0));
         center_water.setText(String.valueOf((progressBareau.getProgress()*100) / progressBareau.getMax()));
-        addprogress_water((progressBareau.getProgress()*100) / progressBareau.getMax());
+        //addprogress_water((progressBareau.getProgress()*100) / progressBareau.getMax());
 
+        addprogress_water((share.getInt("currentWater",progressBareau.getProgress())));
         //Toast.makeText(getActivity(),"water" + quantite_water + "|" + share.getInt("currentWater",0) + "|",Toast.LENGTH_SHORT).show();
         }
       }
     });
-
-
-    img_bottle.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        radio_bottle.setChecked(true);
-        other_qt.setEnabled(false);
-        radio_glass.setChecked(false);
-        radio_other.setChecked(false);
-      }
-    });
-
-    img_glass.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        radio_glass.setChecked(true);
-        other_qt.setEnabled(false);
-        radio_bottle.setChecked(false);
-        radio_other.setChecked(false);
-      }
-    });
-
-
-    radio_other.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        radio_other.setChecked(true);
-        radio_bottle.setChecked(false);
-        radio_glass.setChecked(false);
-        other_qt.setEnabled(true);
-      }
-    });
-
-    radio_glass.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        radio_glass.setChecked(true);
-
-        radio_other.setChecked(false);
-        radio_bottle.setChecked(false);
-        other_qt.setEnabled(false);
-      }
-    });
-
-    radio_bottle.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        radio_bottle.setChecked(true);
-
-        radio_other.setChecked(false);
-        radio_glass.setChecked(false);
-        other_qt.setEnabled(false);
-      }
-    });
-
-
     add_to_circle.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -428,15 +407,18 @@ public class NutritionFragment extends Fragment {
       }
     });
 
+    animate_progressbar_(progressBar,progressBar.getProgress());
+    animate_progressbar_(progressBareau,progressBareau.getProgress());
+
     home_pro = progressBar.getProgress();
     return root;
   }
-
 
   //METHODES
   private void activiy_nutrition_aliment() {
     if(!quantite.getText().toString().trim().isEmpty()){
       if(progressBar.getProgress()<maxKca){
+        int q = Integer.parseInt(quantite.getText().toString());
 
         //calorie d'aliment
         int x = (int)convertQttoCl(Integer.parseInt(quantite.getText().toString()));
@@ -444,20 +426,24 @@ public class NutritionFragment extends Fragment {
 
         //incrementer progress
         progressBar.setProgress(progressBar.getProgress()+ x);
-
-
         progressBareau.setProgress(progressBareau.getProgress() + convertQttoGr(Integer.parseInt(quantite.getText().toString())));
         conso_eau.setText(String.valueOf(Integer.parseInt(conso_eau.getText().toString())+convertQttoGr(Integer.parseInt(quantite.getText().toString()))));
 
         //HomeFragment.max_progress = progressBar.getProgress();
+        int a =  share.getInt("protine",0) + (((int)currentAliment.getCalorie().getProtine() * q) /100)
+                ,b =  share.getInt("lipide",0) + (((int)currentAliment.getCalorie().getLipide() * q) /100),
+                c = share.getInt("glucide",0) + (((int) currentAliment.getCalorie().getGlicide() * q) /100);
 
         //NutritionHistoryActivity.myArray.add(new ItemHistory(currentAliment.getNom(),x));
         Updates(share.getInt("currentKca",0) + x, share.getInt("currentWater",0) + convertQttoGr(Integer.parseInt(quantite.getText().toString())));
+        Updates_plus (a,b,c);
         addatabase(currentAliment,Integer.parseInt(quantite.getText().toString()));
-        addprogress_water((progressBareau.getProgress()*100) / progressBareau.getMax());
+        addprogress_water(((share.getInt("currentWater",progressBareau.getProgress()))));
 
-        center_food.setText(String.valueOf((progressBar.getProgress()*100) / progressBar.getMax()));
-        center_water.setText(String.valueOf((progressBareau.getProgress()*100) / progressBareau.getMax()));
+        center_food.setText(String.valueOf((share.getInt("currentKca",progressBar.getProgress())*100) / progressBar.getMax()));
+       // center_water.setText(String.valueOf(share.getInt("currentWater",(progressBareau.getProgress())*100) / progressBareau.getMax()));
+        center_water.setText(String.valueOf((share.getInt("currentWater",progressBareau.getProgress()) * 100) / progressBareau.getMax()));
+
         Toast.makeText(getActivity(),"kcal: "+String.valueOf(share.getInt("currentKca",0)) +"w "+ String.valueOf(share.getInt("currentKca",0)),Toast.LENGTH_SHORT).show();
       }
     }
@@ -507,6 +493,10 @@ public class NutritionFragment extends Fragment {
     return (double)(quantite*currentAliment.getCalorie().getTotal())/100;
   }
 
+  private double convertQttoClAliment(int quantite,Aliment aliment){
+    return (double)(quantite*aliment.getCalorie().getTotal())/100;
+  }
+
   public int convertCltoPercent(double cal,int max){
     return (int)(((cal*100)/max)*100);
 
@@ -522,6 +512,21 @@ public class NutritionFragment extends Fragment {
     SharedPreferences.Editor editor = share.edit();
     editor.putInt("currentKca",kca);
     editor.putInt("currentWater",w);
+
+    editor.commit();
+    editor.apply();
+
+    animate_progressbar_(progressBar,progressBar.getProgress());
+    animate_progressbar_(progressBareau,progressBareau.getProgress());
+
+  }
+
+  void Updates_plus (int a,int b,int c){
+    SharedPreferences.Editor editor = share.edit();
+
+    editor.putInt("protine",a);
+    editor.putInt("lipide",b);
+    editor.putInt("glucide",c);
     editor.commit();
     editor.apply();
   }
@@ -530,14 +535,24 @@ public class NutritionFragment extends Fragment {
     SharedPreferences.Editor editor = share.edit();
     editor.putInt("currentWater",w);
     editor.apply();
+
+    animate_progressbar_(progressBareau,progressBareau.getProgress());
   }
 
+  public void Updates_nut(int kca){
+    SharedPreferences.Editor editor = share.edit();
+    editor.putInt("currentKca",kca);
+    editor.commit();
+    editor.apply();
+
+    animate_progressbar_(progressBar,progressBar.getProgress());
+  }
 
   //__ database data
   private  void addatabase (Aliment a, int q){
     path = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(user.getIdUser()).child(today).child("Nutrition").child(AlimentData.nb+a.getNom());
     path.setValue(new AlimentData(a.getNom(),q));
-    addprogress((progressBar.getProgress() *100) / progressBar.getMax());
+    addprogress((share.getInt(PROGRESS_ALIMENT,progressBar.getProgress())));
   }
 
   private void addprogress (int p) {
@@ -548,6 +563,104 @@ public class NutritionFragment extends Fragment {
   private void addprogress_water (int p) {
     path = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(user.getIdUser()).child(today).child("Progressions").child("Water");
     path.setValue(p);
+  }
+
+  //DATA
+  private void getHistory_all_Progress_parobj (final ProgressBar pro1,final ProgressBar pro2){
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(MainMyMenu.user.getIdUser());
+
+    databaseReference.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        if (dataSnapshot.exists()) {
+          for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            int pronut = 0,prowt = 0;
+
+            if (snapshot.child("Progressions").exists()) {
+              if (snapshot.child("Progressions").child("Nutrition").exists())
+                pronut = snapshot.child("Progressions").child("Nutrition").getValue(Integer.class);
+
+              if (snapshot.child("Progressions").child("Water").exists())
+                prowt = snapshot.child("Progressions").child("Water").getValue(Integer.class);
+            }
+            pro1.setProgress(pro1.getProgress()+pronut);
+            pro2.setProgress(pro2.getProgress()+prowt);
+          }
+        }
+      }
+
+      @Override
+      public void onCancelled(@NonNull DatabaseError databaseError) {
+      }
+    });
+    //
+  }
+
+  private void getHistory_nutpro(final ProgressBar pro1, final TextView current){
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(requireActivity().getSharedPreferences(MainActivity.MyUser, MODE_PRIVATE).getString("UserId", MainMyMenu.user.getIdUser())).child(today).child("Nutrition");
+    databaseReference.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        int resultat_progression = 0;
+        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+          int quantite = 0;
+
+          if (snapshot.exists()) {
+            if (snapshot.child("nom").exists()) {
+              String nom = snapshot.child("nom").getValue(String.class);
+              if (snapshot.child("quantite").exists())
+                quantite = (int) snapshot.child("quantite").getValue(Integer.class);
+              AlimentData a = new AlimentData (nom,quantite);
+              if (getAliment(a) != null)
+                resultat_progression += convertQttoClAliment(quantite, getAliment(a));
+            }
+          }
+        }
+
+        pro1.setProgress(resultat_progression);
+        current.setText(String.valueOf(resultat_progression));
+        center_food.setText(String.valueOf((pro1.getProgress()*100) / pro1.getMax()));
+      }
+
+      @Override
+      public void onCancelled(@NonNull DatabaseError databaseError) {
+      }
+    });
+
+    //animate_progressbar(pro1);
+  }
+
+  public Aliment getAliment (AlimentData a) {
+    ArrayList <Aliment> arrayList = MainMyMenu.arrayList;
+    for (int i = 0; i < arrayList.size(); i++) {
+      if (arrayList.get(i) != null && arrayList.get(i).getNom().trim().equals(a.getNom()))
+        return arrayList.get(i);
+    }
+    return null;
+  }
+
+  private void getHistory_water(final ProgressBar pro1, final int Max, final TextView conso_eau) {
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(requireActivity().getSharedPreferences(MainActivity.MyUser, MODE_PRIVATE).getString("UserId", MainMyMenu.user.getIdUser())).child(today);
+    databaseReference.addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        if (dataSnapshot.exists()) {
+          int prowt = 0;
+
+          if (dataSnapshot.child("Progressions").exists()) {
+            if (dataSnapshot.child("Progressions").child("Water").exists())
+              prowt = dataSnapshot.child("Progressions").child("Water").getValue(Integer.class);
+            center_water.setText(String.valueOf((prowt)));
+          }
+
+          pro1.setProgress((Max * prowt) / 100);
+          conso_eau.setText(String.valueOf((((Max * prowt) / 100))));
+        }
+      }
+      @Override
+      public void onCancelled(@NonNull DatabaseError databaseError) {
+      }
+    });
   }
 
 
@@ -611,5 +724,45 @@ public class NutritionFragment extends Fragment {
     //Toast.makeText(getActivity(),"bottle",Toast.LENGTH_SHORT).show();
 
     quantite_water = q * 10;
+  }
+
+  private void animate_progressbar ( ProgressBar p) {
+    final ObjectAnimator objectAnimator = ObjectAnimator.ofInt(p,"progress",0,p.getProgress());
+    objectAnimator.setDuration(1500);
+
+    objectAnimator.addListener(new AnimatorListenerAdapter() {
+      @Override
+      public void onAnimationCancel(Animator animation) {
+        super.onAnimationCancel(animation);
+        //p.setVisibility(View.GONE);
+      }
+    });
+    objectAnimator.start();
+  }
+
+  private void animate_progressbar_ ( ProgressBar p,int max) {
+    final ObjectAnimator objectAnimator = ObjectAnimator.ofInt(p,"progress",0,max);
+    objectAnimator.setDuration(1500);
+
+    objectAnimator.addListener(new AnimatorListenerAdapter() {
+      @Override
+      public void onAnimationCancel(Animator animation) {
+        super.onAnimationCancel(animation);
+        //p.setVisibility(View.GONE);
+      }
+    });
+    objectAnimator.start();
+  }
+
+  //STATIC
+  public static Aliment getCurrentAliment () {
+    return currentAliment;
+  }
+
+  //DIALOGUE
+  private void openAlimentNut() {
+    DialogueAlimentInfos dialog = new DialogueAlimentInfos();
+    // dialog.setTargetFragment(HomeFragment.this,1);
+    dialog.show(requireActivity().getSupportFragmentManager(), "example dialog");
   }
 }

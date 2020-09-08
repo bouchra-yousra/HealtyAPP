@@ -36,7 +36,6 @@ public class TestInflate extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view =  inflater.inflate(R.layout.dialogue_item_test_inflate, null);
         builder.setView(view)
-                .setTitle("Exercice a faire")
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

@@ -3,6 +3,7 @@ package com.example.healtyapp.ui.activitymorale;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.healtyapp.R;
+import com.example.healtyapp.dialogue.ExplainPmodoroDialog;
 import com.example.healtyapp.module.User;
 import com.example.healtyapp.vue.center_activities.MainMyMenu;
 
@@ -19,14 +21,15 @@ import java.util.Locale;
 public class MainTomate extends AppCompatActivity {
 
     LinearLayout start;
-    TextView time,s,name;
+    TextView time,s;
+    public static TextView name;
     CountDownTimer mCountDownTimer;
     private long mTimeLeftInMillis;
     boolean mTimerRunning;
     double x;
     User user;
     CardView cardView;
-    LinearLayout linearLayout;
+    LinearLayout linearLayout,back;
     public static int compt = 4;
 
     @Override
@@ -41,8 +44,19 @@ public class MainTomate extends AppCompatActivity {
         start = findViewById(R.id.chrono_start);
         s=findViewById(R.id.starttext);
 
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         name = findViewById(R.id.chrono_name_exo);
-        name.setText("Exo");
+        name.setText(getIntent().getStringExtra("pomodoro_title"));
+
+        if (name.getText().toString().isEmpty())
+            name.setText(ExplainPmodoroDialog.task_title);
 
         cardView = findViewById(R.id.card_break);
         linearLayout = findViewById(R.id.take_break);
@@ -126,4 +140,10 @@ public class MainTomate extends AppCompatActivity {
         super.onStart();
         cardView.setVisibility(View.INVISIBLE);
     }
+
+    //Tomate
+    public static void UpdateTaskName(String toString) {
+        name.setText(toString);
+    }
+
 }

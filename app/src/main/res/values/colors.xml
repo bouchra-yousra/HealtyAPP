@@ -15,7 +15,7 @@
     <color name="Element3" >#FFFFFF</color>
 
     <color name="txt1">#FEFFFF</color>
-    <color name="txt2">#172C2A</color>
+    <color name="txt2">@color/grey</color>
     <color name="txt3">#00AA9A</color>
 
 

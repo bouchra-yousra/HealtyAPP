@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -16,6 +19,8 @@ import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +33,11 @@ import com.example.healtyapp.database_item.AlimentData;
 import com.example.healtyapp.database_item.Aliment_historique;
 import com.example.healtyapp.database_item.CognitieActivite;
 import com.example.healtyapp.database_item.PhysicalActivity;
+import com.example.healtyapp.ui.activitymorale.ActivitymoraleFragment;
 import com.example.healtyapp.ui.activitymorale.Historique_cognitive;
+import com.example.healtyapp.ui.activityphysic.ActivityphysicFragment;
 import com.example.healtyapp.ui.activityphysic.HistoryUserPh;
+import com.example.healtyapp.ui.nutrition.NutritionFragment;
 import com.example.healtyapp.vue.center_activities.MainActivity;
 import com.example.healtyapp.vue.center_activities.MainMyMenu;
 import com.google.firebase.database.DataSnapshot;
@@ -60,10 +68,16 @@ public class CalendarActivity extends AppCompatActivity {
 
     //no activity
     TextView txtnoact;
-    LinearLayout laynoact;
+    LinearLayout laynoact,back;
     final String n0 = "Select an activity type";
     final String n1 = "No activities";
     final String n2 = "Stay tuned";
+
+    //progression gloabe
+    ProgressBar p1,p2,p3;
+    TextView txt_show;
+    LinearLayout show;
+    RelativeLayout layout_progression;
 
     //drawble
     final int color1 = R.drawable.custom_button1;
@@ -82,13 +96,26 @@ public class CalendarActivity extends AppCompatActivity {
     String choice = c1;
     static final String c1 = "physique",c2 = "cognitive",c3 = "nutrition";
 
-    String dateselected ;
+    Calendar calSelected = Calendar.getInstance();
+    String dateselected = "" + calSelected.get(Calendar.DAY_OF_MONTH)
+            + (calSelected.get(Calendar.MONTH) + 1)
+            + calSelected.get(Calendar.YEAR);;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+
+        share = getSharedPreferences(MainMyMenu.Share,MODE_PRIVATE);
+
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         txtnoact = findViewById(R.id.text_noact);
         txtnoact.setText(n0);
@@ -161,6 +188,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                     txtnoact.setText(n2);
                     laynoact.setVisibility(View.VISIBLE);
+                    show.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "try again", Toast.LENGTH_SHORT).show();
                 }
                 //today/past
@@ -168,6 +196,7 @@ public class CalendarActivity extends AppCompatActivity {
 
                     txtnoact.setText(n1);
                     laynoact.setVisibility(View.VISIBLE);
+                    show.setVisibility(View.GONE);
                     gere_affichage(selectedDate);
                 }
 
@@ -176,14 +205,28 @@ public class CalendarActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.list);
         listView.setAdapter(null);
+
+        //progression global
+        p1 = findViewById(R.id.progress_physique1);
+        p2 = findViewById(R.id.progress_cognitive1);
+        p3 = findViewById(R.id.progress_nutrition1);
+
+        getHistory_all_Progress_parjour(p1,p2,p3,dateselected);
+
+        show = findViewById(R.id.show_progress);
+        txt_show = findViewById(R.id.show_hide);
+        layout_progression = findViewById(R.id.objectifiem1);
+
+        click_show (show,txt_show,layout_progression);
+
     }
 
-
     //DATA
-    //PHYSIQUE
+    //PHYSIQUE<
     public void getHistory_physique(String today){
         databaseReference = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(MainMyMenu.user.getIdUser()).child(today).child("Physique");
         activityPhysique = new ArrayList<>();
+        listView.setVisibility(View.VISIBLE);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -198,9 +241,11 @@ public class CalendarActivity extends AppCompatActivity {
                             activityPhysique.add(a);
                             updatelist_physique();
                             laynoact.setVisibility(View.GONE);
+                            show.setVisibility(View.VISIBLE);
                         }
-                    } else
+                    }else{
                         laynoact.setVisibility(View.VISIBLE);
+                        show.setVisibility(View.GONE);}
                 }
             }
 
@@ -215,6 +260,8 @@ public class CalendarActivity extends AppCompatActivity {
 
         if (activityPhysique.isEmpty()) {
             laynoact.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+            show.setVisibility(View.GONE);
             return;
         }
 
@@ -233,6 +280,7 @@ public class CalendarActivity extends AppCompatActivity {
     public void getHistory_cognitive(String today){
         databaseReference = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(MainMyMenu.user.getIdUser()).child(today).child("Cognitive");
         activityCognitive = new ArrayList<>();
+        listView.setVisibility(View.VISIBLE);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -247,9 +295,11 @@ public class CalendarActivity extends AppCompatActivity {
 
                             updatelist_cognitive();
                             laynoact.setVisibility(View.GONE);
+                            show.setVisibility(View.VISIBLE);
                         }
-                    }else
+                    }else{
                         laynoact.setVisibility(View.VISIBLE);
+                        show.setVisibility(View.GONE);}
                 }
             }
 
@@ -265,6 +315,8 @@ public class CalendarActivity extends AppCompatActivity {
 
         if (activityCognitive.isEmpty()) {
             laynoact.setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+            show.setVisibility(View.GONE);
             Toast.makeText(getApplicationContext(), "update return", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -283,6 +335,7 @@ public class CalendarActivity extends AppCompatActivity {
 
     //NUTRITION
     public void getHistory_nutrition(String today){
+        listView.setVisibility(View.VISIBLE);
         if (MainMyMenu.user.getIdUser() == null)
             databaseReference = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(share.getString("UserId", MainMyMenu.user.getIdUser())).child(today).child("Nutrition");
         else
@@ -302,9 +355,11 @@ public class CalendarActivity extends AppCompatActivity {
                                 activityNutrition.add(new Aliment_historique(a,getAliment(a)));
                             updatelist_nutrition();
                             laynoact.setVisibility(View.GONE);
+                            show.setVisibility(View.VISIBLE);
                         }
-                    } else
+                    }else{
                         laynoact.setVisibility(View.VISIBLE);
+                        show.setVisibility(View.GONE);}
                 }
             }
 
@@ -320,6 +375,8 @@ public class CalendarActivity extends AppCompatActivity {
 
         if (activityNutrition.isEmpty()){
             laynoact.setVisibility(View.VISIBLE);
+            show.setVisibility(View.GONE);
+            listView.setVisibility(View.GONE);
             return;}
 
         historiqueNutritionAdapter = new HistoriqueNutritionAdapter(getApplicationContext(),R.layout.item_historique_nutrition,activityNutrition);
@@ -346,6 +403,10 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     void gere_affichage (String key) {
+
+        getHistory_all_Progress_parjour(p1,p2,p3,key);
+        //updatelist_vide();
+        //updatelist_nutrition();
 
         if (txtnoact.getText().equals(n0)) {
             txtnoact.setText(n1);
@@ -384,6 +445,10 @@ public class CalendarActivity extends AppCompatActivity {
                 getHistory_nutrition(key);
                 break;
         }
+
+        //animate_progressbar(p1);
+        //animate_progressbar(p2);
+        //animate_progressbar(p3);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -400,6 +465,19 @@ public class CalendarActivity extends AppCompatActivity {
         c.setBackground(getDrawable(color2));
     }
 
+    private void updatelist_vide() {
+        listView.setAdapter(null);
+        ArrayList <PhysicalActivity> a = new ArrayList();
+        historyPhAdapter = new HistoriquePhysiqueAdapter(getApplicationContext(),R.layout.item_historyactph,a);
+        ViewGroup.LayoutParams layoutParams = listView.getLayoutParams();
+        layoutParams.height = methode((a.size()*0)+5,this); //this is in pixels
+        listView.setLayoutParams(layoutParams);
+        historyPhAdapter.notifyDataSetChanged();
+        listView.setAdapter(null);
+        listView.setAdapter(historyPhAdapter);
+        //methodexX();
+    }
+
     //get element
     public Aliment getAliment (AlimentData a) {
         ArrayList <Aliment> arrayList = MainMyMenu.arrayList;
@@ -408,5 +486,128 @@ public class CalendarActivity extends AppCompatActivity {
                 return arrayList.get(i);
         }
         return null;
+    }
+
+    //PROGRESSION GLOBAL
+
+    private void click_show(final LinearLayout show, final TextView txt_show, final RelativeLayout layout) {
+        show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (layout.getVisibility() == View.GONE) {
+                    layout.setVisibility(View.VISIBLE);
+                    txt_show.setText("Hide");
+                    animate_progressbar(p1);
+                    animate_progressbar(p2);
+                    animate_progressbar(p3);
+                }
+                else {
+                    layout.setVisibility(View.GONE);
+                    txt_show.setText("Show progress");
+                }
+            }
+        });
+    }
+
+    public void getHistory_all_Progress_parobj (final ProgressBar pro1, final ProgressBar pro2, final ProgressBar pro3){
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(MainMyMenu.user.getIdUser());
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        int proph = 0,progn = 0,pronut = 0,prowt = 0;
+
+                        if (snapshot.child("Progressions").exists()) {
+                            if (snapshot.child("Progressions").child("Cognitive").exists())
+                                progn = snapshot.child("Progressions").child("Cognitive").getValue(Integer.class);
+
+                            if (snapshot.child("Progressions").child("Nutrition").exists())
+                                pronut = snapshot.child("Progressions").child("Nutrition").getValue(Integer.class);
+
+                            if (snapshot.child("Progressions").child("Physique").exists())
+                                proph = snapshot.child("Progressions").child("Physique").getValue(Integer.class);
+
+                            if (snapshot.child("Progressions").child("Water").exists())
+                                prowt = snapshot.child("Progressions").child("Water").getValue(Integer.class);
+                        }
+
+                        pro1.setProgress(pro1.getProgress()+proph);
+                        pro2.setProgress(pro2.getProgress()+progn);
+                        pro3.setProgress(pro3.getProgress()+pronut);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+        //
+    }
+
+    public void getHistory_all_Progress_parjour (final ProgressBar pro1, final ProgressBar pro2, final ProgressBar pro3,String day){
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(MainMyMenu.user.getIdUser()).child(day);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                        int proph = 0,progn = 0,pronut = 0,prowt = 0;
+
+                        if (dataSnapshot.child("Progressions").exists()) {
+                            if (dataSnapshot.child("Progressions").child("Cognitive").exists())
+                                progn = dataSnapshot.child("Progressions").child("Cognitive").getValue(Integer.class);
+
+                            if (dataSnapshot.child("Progressions").child("Nutrition").exists())
+                                pronut = dataSnapshot.child("Progressions").child("Nutrition").getValue(Integer.class);
+
+                            if (dataSnapshot.child("Progressions").child("Physique").exists())
+                                proph = dataSnapshot.child("Progressions").child("Physique").getValue(Integer.class);
+
+                            if (dataSnapshot.child("Progressions").child("Water").exists())
+                                prowt = dataSnapshot.child("Progressions").child("Water").getValue(Integer.class);
+                        }
+
+                        /*
+                        pro1.setProgress(pro1.getProgress()+proph);
+                        pro2.setProgress(pro2.getProgress()+progn);
+                        pro3.setProgress(pro3.getProgress()+pronut);*/
+                        pro1.setProgress( convertCalorieToProgressPhysique(proph));
+                        pro2.setProgress(convertDurationToProgress(progn));
+                        pro3.setProgress(convertCalorieToProgressNutrition(pronut));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private int convertDurationToProgress(int progn) {
+        return (progn * 100) / 60;
+    }
+
+    private int convertCalorieToProgressPhysique(int pro) { return (pro * 100) / share.getInt("MAX1",1); }
+
+    private int convertCalorieToProgressNutrition(int pro) { return (pro * 100) / share.getInt("MAX2",1); }
+
+
+    //ANIMATION
+    private void animate_progressbar (final ProgressBar p) {
+        final ObjectAnimator objectAnimator = ObjectAnimator.ofInt(p,"progress",0,p.getProgress());
+        objectAnimator.setDuration(1500);
+
+        objectAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                super.onAnimationCancel(animation);
+                p.setVisibility(View.GONE);
+            }
+        });
+
+        objectAnimator.start();
     }
 }

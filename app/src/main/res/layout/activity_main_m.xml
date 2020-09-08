@@ -6,6 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".ui.activitymorale.MainActivityM">
 
+    <androidx.cardview.widget.CardView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="10dp"
+        android:backgroundTint="#003700B3"
+        android:visibility="visible"
+        app:cardCornerRadius="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/c1c2">
+
+            <LinearLayout
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/backbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/abc_vector_test"
+                    app:tint="@color/colorPrimary"
+                    tools:ignore="VectorDrawableCompat" />
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -51,7 +87,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:background="@color/bleu_green">
+                            android:background="@color/colorAccent4">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -185,24 +221,14 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="2dp"
                             android:layout_marginTop="10dp"
-                            android:background="@color/bleu_green" />
+                            android:background="@color/colorAccent4" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
-
-                            <Button
-                                android:id="@+id/show_etaps2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginRight="5dp"
-                                android:background="#00FFFFFF"
-                                android:text="Show steps"
-                                android:textColor="@color/layou1" />
 
                             <TextView
                                 android:id="@+id/exo_etapes"
@@ -217,6 +243,17 @@
                                 android:scrollbars="none"
                                 android:textSize="18sp"
                                 android:visibility="gone" />
+
+                            <Button
+                                android:id="@+id/show_etaps2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:background="#00FFFFFF"
+                                android:text="Show steps"
+                                android:textColor="@color/layou1" />
+
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

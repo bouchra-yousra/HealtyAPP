@@ -12,11 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.example.healtyapp.R;
 import com.example.healtyapp.database_item.Aliment;
-import com.example.healtyapp.database_item.AlimentData;
 import com.example.healtyapp.database_item.Aliment_historique;
-import com.example.healtyapp.database_item.PhysicalActivity;
-import com.example.healtyapp.ui.nuttrision.NutritionFragment;
-import com.example.healtyapp.vue.center_activities.MainMyMenu;
 
 import java.util.ArrayList;
 import java.util.Objects;

@@ -4,17 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.healtyapp.R;
+import com.example.healtyapp.Tests.Test;
 import com.example.healtyapp.module.User;
+import com.example.healtyapp.ui.home.HomeFragment;
 import com.example.healtyapp.vue.app_initialisation.LoginActivity;
 import com.example.healtyapp.vue.app_initialisation.MainWelcome;
+import com.example.healtyapp.vue.sous_activities.MainForgetpw;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -52,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
         if (systeme_pane) {
             logout();
         }
-        timer = new Timer();
+
+      /*  timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
-            public void run() {
-
+            public void run() {*/
                 if(share.contains("Logged")){
 
                     AutoLogin(share.getString("Email",null),share.getString("Password",null));
@@ -69,12 +74,17 @@ public class MainActivity extends AppCompatActivity {
                     finish();
 
                 }else{
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    finish();
+                    timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                            finish();
+                        }
+                    },3500);
                 }
-            }
-        },3500);
     }
+
     public void AutoLogin(String mail,String password){
         final String TAG = "SIGN IN";
         myAuth = FirebaseAuth.getInstance();
@@ -130,6 +140,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public  void getCurrnentUser_ (final String mail){
+
+        myDataBase = FirebaseDatabase.getInstance().getReference().child("Users");
+        myDataBase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    User user1 = snapshot.getValue(User.class);
+
+                    if(user1.getEmail().equals(mail)){
+                        userid = user1.getIdUser();
+                        MainMyMenu.user = user1;
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                startActivity(new Intent(MainActivity.this,MainForgetpw.class));
+                finish();
+            }
+        });
+    }
+
 
     //logout
     void logout () {

@@ -1,4 +1,4 @@
-package com.example.healtyapp.ui.nuttrision;
+package com.example.healtyapp.ui.nutrition;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +11,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-import com.example.healtyapp.adapter.HistoriqueCognitiveAdaoter;
 import com.example.healtyapp.adapter.HistoriqueNutritionAdapter;
 import com.example.healtyapp.adapter.ItemAdapter;
 import com.example.healtyapp.adapter_item.ItemHistory;
@@ -19,8 +18,6 @@ import com.example.healtyapp.R;
 import com.example.healtyapp.database_item.Aliment;
 import com.example.healtyapp.database_item.AlimentData;
 import com.example.healtyapp.database_item.Aliment_historique;
-import com.example.healtyapp.database_item.CognitieActivite;
-import com.example.healtyapp.ui.activitymorale.Historique_cognitive;
 import com.example.healtyapp.vue.center_activities.MainActivity;
 import com.example.healtyapp.vue.center_activities.MainMyMenu;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +38,7 @@ public class NutritionHistoryActivity extends AppCompatActivity {
 
     ItemAdapter itemAdapter;
     public static  ArrayList<ItemHistory> myArray = new ArrayList<>();
+    TextView all_cal,all_time;
 
     //today
     Calendar calSelected = Calendar.getInstance();
@@ -52,7 +50,7 @@ public class NutritionHistoryActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     //no activity
-    LinearLayout laynoact;
+    LinearLayout laynoact,back;
 
 
     //drawble
@@ -65,6 +63,17 @@ public class NutritionHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historique_nutrition);
+        all_cal = findViewById(R.id.all_cal);
+        all_time = findViewById(R.id.all_time);
+        methodexX();
+
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         laynoact = findViewById(R.id.layout_noact);
 
@@ -95,6 +104,7 @@ public class NutritionHistoryActivity extends AppCompatActivity {
         listView.setAdapter(null);
 
         listView.setAdapter(historiqueNutritionAdapter);
+        methodexX();
     }
 
     //DATA
@@ -135,5 +145,17 @@ public class NutritionHistoryActivity extends AppCompatActivity {
                 return arrayList.get(i);
         }
         return null;
+    }
+
+    public  void methodexX(){
+        int x=0,y=0;
+
+        for(int i = 0 ; i<activityNutrition.size();i++){
+            x+=activityNutrition.get(i).getAliment().getCalorie().getTotal();
+            y+=activityNutrition.get(i).getAlimentData().getQuantite();
+        }
+
+        all_cal.setText(String.valueOf(x)+ "kCal");
+        all_time.setText(String.valueOf(y)+" g");
     }
 }

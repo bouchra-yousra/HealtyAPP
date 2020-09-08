@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
     LinearLayout next;
     String maladie_name;
     String user_gender = "";
-    LinearLayout birthday;
+    LinearLayout birthday,back;
     Boolean bday_valide = false;
     Birthday user_birthday = null;
     TextView textbday;
@@ -55,6 +55,15 @@ public class SignUpActivity extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.init_activity_sign_up);
         textbday = findViewById(R.id.textbday);
+
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
+                finish();
+            }
+        });
 
         a = findViewById(R.id.edit_signup_height);
         height = a.getEditText();

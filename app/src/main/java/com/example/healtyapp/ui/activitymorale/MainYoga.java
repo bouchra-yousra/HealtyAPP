@@ -10,17 +10,21 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.healtyapp.adapter.ExoCngAdapter;
 import com.example.healtyapp.R;
 import com.example.healtyapp.module.ExerciceCognitive;
+import com.example.healtyapp.vue.app_initialisation.SignUpActivity;
 import com.example.healtyapp.vue.center_activities.MainMyMenu;
+import com.example.healtyapp.vue.sous_activities.MainUserChooseActivityLevel;
 
 import java.util.ArrayList;
 
 public class MainYoga extends AppCompatActivity {
     ListView listExercices;
+    LinearLayout back;
 
     ArrayList<ExerciceCognitive> arrayList = new ArrayList<>();
     ExoCngAdapter exoCngAdapter;
@@ -34,6 +38,13 @@ public class MainYoga extends AppCompatActivity {
         //here
 
         listExercices = findViewById(R.id.list_yoga);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               finish();
+            }
+        });
 
         exoCngAdapter = new ExoCngAdapter(this,R.layout.itemactivitymoral,arrayList);
 

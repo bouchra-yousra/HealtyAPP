@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.healtyapp.R;
+import com.example.healtyapp.dialogue.ExplainPmodoroDialog;
 import com.example.healtyapp.module.User;
 import com.example.healtyapp.vue.center_activities.MainMyMenu;
 
@@ -25,7 +26,7 @@ public class MainPause extends AppCompatActivity {
     double x;
     int compt;
     User user;
-
+    LinearLayout back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +34,20 @@ public class MainPause extends AppCompatActivity {
         user = MainMyMenu.user;
         compt = MainTomate.compt;
         break_txt = findViewById(R.id.break_txt);
+
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        name = findViewById(R.id.chrono_name_exo);
+        name.setText(MainTomate.name.getText().toString());
+
+        if (name.getText().toString().isEmpty())
+            name.setText(ExplainPmodoroDialog.task_title);
 
         //x =0.25 * 60000;
         if(compt == 0){

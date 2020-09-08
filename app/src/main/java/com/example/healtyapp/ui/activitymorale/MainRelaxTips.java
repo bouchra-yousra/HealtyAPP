@@ -10,6 +10,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.healtyapp.adapter.ExoCngAdapter;
@@ -24,12 +25,21 @@ public class MainRelaxTips extends AppCompatActivity {
 
     ArrayList<ExerciceCognitive> arrayList = new ArrayList<>();
     ExoCngAdapter exoCngAdapter;
+    LinearLayout back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_relax_tips);
         setTitle("Relax techniques");
+
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         //step 1/2
         listExercices = findViewById(R.id.list_relaxTips);

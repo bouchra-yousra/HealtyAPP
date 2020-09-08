@@ -44,7 +44,7 @@ public class Historique_cognitive extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     //no activity
-    LinearLayout laynoact;
+    LinearLayout laynoact,back;
 
     //drawble
     final int color1 = R.drawable.custom_button1;
@@ -56,28 +56,36 @@ public class Historique_cognitive extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historique_cognitive_);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         laynoact = findViewById(R.id.layout_noact);
 
         all_cal = findViewById(R.id.all_cal);
         all_time = findViewById(R.id.all_time);
-        //methodexX();
+        all_time.setText(0+" Min");
+
         listView = findViewById(R.id.liste_exo_cognitive);
         getHistory();
         //updatelist();
     }
 
     //vue methodes
-   /* public  void methodexX(){
+    public  void methodexX(){
         int x=0,y=0;
         for(int i = 0 ; i<activityCognitive.size();i++){
             //x += activityCognitive.get(i).getCalories_burned();
             y += activityCognitive.get(i).getDuree();
         }
 
-        all_cal.setText(String.valueOf(x)+ "Cal");
+        //all_cal.setText(String.valueOf(x)+ "Cal");
         all_time.setText(String.valueOf(y)+" Min");
-    }*/
+    }
 
     public void updatelist () {
         listView.setAdapter(null);
@@ -93,6 +101,7 @@ public class Historique_cognitive extends AppCompatActivity {
         listView.setAdapter(null);
 
         listView.setAdapter(historyCngAdapter);
+        methodexX();
     }
 
     //DATA

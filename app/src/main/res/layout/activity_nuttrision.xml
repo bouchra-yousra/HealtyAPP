@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="?actionBarSize"
     android:background="@color/layout3"
-    tools:context=".ui.nuttrision.NutritionFragment">
+    tools:context=".ui.nutrition.NutritionFragment">
 
     <androidx.cardview.widget.CardView
 
@@ -80,7 +80,8 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
                     app:cardCornerRadius="20dp"
-                    app:cardElevation="10dp">
+                    app:cardElevation="10dp"
+                    tools:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -321,7 +322,8 @@
                     android:layout_marginBottom="10dp"
                     android:visibility="visible"
                     app:cardCornerRadius="20dp"
-                    app:cardElevation="10dp">
+                    app:cardElevation="10dp"
+                    tools:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -654,17 +656,45 @@
                                 android:visibility="visible" />
                         </RelativeLayout>
 
-                        <Button
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
 
-                            android:id="@+id/addt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
+                            <Button
 
-                            android:backgroundTint="@color/colorPrimary"
-                            android:text="Add an aliment"
-                            android:textColor="#FFFFFF" />
+                                android:id="@+id/show_aliment_infos"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="10dp"
+
+                                android:layout_marginTop="20dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/bleu_gris_fonçe"
+                                android:text="Informations"
+                                android:textColor="#FFFFFF" />
+
+                            <Button
+
+                                android:id="@+id/addt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="5dp"
+
+                                android:layout_marginTop="20dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/txt3"
+                                android:text="Add an aliment"
+                                android:textColor="#FFFFFF" />
+                        </LinearLayout>
+
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -878,18 +908,29 @@
 
                         </RelativeLayout>
 
-                        <Button
-
-                            android:id="@+id/add_water_nut"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="250dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:orientation="horizontal">
 
-                            android:layout_marginTop="20dp"
-                            android:layout_weight="1"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:text="Add water"
-                            android:textColor="#FFFFFF" />
+                            <Button
+
+                                android:id="@+id/add_water_nut"
+                                android:layout_width="match_parent"
+
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_weight="1"
+                                android:backgroundTint="@color/txt3"
+                                android:text="Add water"
+                                android:textColor="#FFFFFF" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>

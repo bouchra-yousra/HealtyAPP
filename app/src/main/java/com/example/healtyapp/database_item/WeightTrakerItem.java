@@ -38,4 +38,10 @@ public class WeightTrakerItem {
     public int getWeight() {
         return weight;
     }
+
+    //SETTERS
+
+    public static void setIdeal_weight(int ideal_weight) {
+        WeightTrakerItem.ideal_weight = ideal_weight;
+    }
 }

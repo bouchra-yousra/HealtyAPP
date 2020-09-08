@@ -1,5 +1,8 @@
 package com.example.healtyapp.ui.activitymorale;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,12 +25,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.healtyapp.dialogue.ExampleDialog;
+import com.example.healtyapp.dialogue.ExplainPmodoroDialog;
 import com.example.healtyapp.module.ExerciceCognitive;
 import com.example.healtyapp.adapter.ExoCngAdapter;
 import com.example.healtyapp.systeme.MainAddActM;
 import com.example.healtyapp.vue.center_activities.MainMyMenu;
 import com.example.healtyapp.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,10 +58,10 @@ public class ActivitymoraleFragment extends Fragment {
     ArrayList<ExerciceCognitive> arrayList = new ArrayList<>();
 
     //manipulate progress
-    SharedPreferences share;
-    final String SHARE = MainMyMenu.Share;
-    static final String PROGRESS = MainMyMenu.PROGRESS_COGNITIVE;
-    static final String PROGRESS_TIME = MainMyMenu.PROGRESS_COGNITIVE_TIME;
+    private SharedPreferences share;
+    private final String SHARE = MainMyMenu.Share;
+    private static final String PROGRESS_COGNITIVE = MainMyMenu.PROGRESS_COGNITIVE;
+    private static final String PROGRESS_TIME = MainMyMenu.PROGRESS_COGNITIVE_TIME;
 
     //database data
     DatabaseReference path;
@@ -91,10 +100,19 @@ public class ActivitymoraleFragment extends Fragment {
        no = root.findViewById(R.id.no_nevous);
        nervous = root.findViewById(R.id.are_you_nervous);
        time_progress = root.findViewById(R.id.act_cognitive_duration);
+
        progressBar_cognitive = root.findViewById(R.id.progressbar_cognitive);
        progressBar_cognitive.setMax(60);
        update_progress_cognitive ();
 
+        //if (!share.contains(PROGRESS_COGNITIVE)) {
+            // getProgressCognitive ();
+        //}
+
+       //if (!share.contains(PROGRESS))
+           //getHistory_all_Progress_cognitive(progressBar_cognitive);
+
+       animate_progressbar(progressBar_cognitive);
        nervous.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -113,7 +131,8 @@ public class ActivitymoraleFragment extends Fragment {
        bt.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               startActivity(new Intent(getActivity(), MainTomate.class));
+               openDialog ();
+               //0startActivity(new Intent(getActivity(), MainTomate.class));
            }
        });
 
@@ -264,7 +283,7 @@ public class ActivitymoraleFragment extends Fragment {
     }
 
     //convert dp into pixel
-    public static int methode(float dp, Context context){
+    private static int methode(float dp, Context context){
         Resources resources = context.getResources();
         int i = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
@@ -274,7 +293,7 @@ public class ActivitymoraleFragment extends Fragment {
         return i;
     }
 
-    public ArrayList<ExerciceCognitive> breathing() {
+    private ArrayList<ExerciceCognitive> breathing() {
         ArrayList<ExerciceCognitive> arrayList_ = new ArrayList<>();
         //get Only activities with type equal Breathing technique
         for(int i = 0;i<MainMyMenu.exerciceCognitives.size();i++){
@@ -286,7 +305,7 @@ public class ActivitymoraleFragment extends Fragment {
         return arrayList_;
     }
 
-    public ArrayList<ExerciceCognitive> yoga() {
+    private ArrayList<ExerciceCognitive> yoga() {
         ArrayList<ExerciceCognitive> arrayList = new ArrayList<>();
         //get Only activities with type equal Breathing technique
         for(int i = 0;i<MainMyMenu.exerciceCognitives.size();i++){
@@ -298,7 +317,7 @@ public class ActivitymoraleFragment extends Fragment {
         return arrayList;
     }
 
-    public ArrayList<ExerciceCognitive> relaxing() {
+    private ArrayList<ExerciceCognitive> relaxing() {
         ArrayList<ExerciceCognitive> arrayList = new ArrayList<>();
         //get Only activities with type equal Breathing technique
         for(int i = 0;i<MainMyMenu.exerciceCognitives.size();i++){
@@ -311,13 +330,81 @@ public class ActivitymoraleFragment extends Fragment {
     }
 
     private void update_progress_cognitive() {
+        Toast.makeText(getActivity(),"progression1: "+share.getInt(PROGRESS_COGNITIVE,0),Toast.LENGTH_SHORT).show();
+
         //long result_time = share.getLong(PROGRESS_TIME,0);
-        int duree = share.getInt(PROGRESS,0);
+        int duree = share.getInt(PROGRESS_COGNITIVE,0);
         long result_time = duree*60000;
         int minutes = (int) (result_time / 1000) / 60;
         int seconds = (int) (result_time / 1000) % 60;
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         ActivitymoraleFragment.time_progress.setText(timeLeftFormatted);
         progressBar_cognitive.setProgress(duree);
+        Toast.makeText(getActivity(),"progression2: "+share.getInt(PROGRESS_COGNITIVE,0),Toast.LENGTH_SHORT).show();
+    }
+
+    private void update_progress_cognitive_prepar(int i) {
+        //long result_time = share.getLong(PROGRESS_TIME,0);
+
+        int duree = i;
+        long result_time = duree*60000;
+        int minutes = (int) (result_time / 1000) / 60;
+        int seconds = (int) (result_time / 1000) % 60;
+        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        ActivitymoraleFragment.time_progress.setText(timeLeftFormatted);
+        progressBar_cognitive.setProgress(duree);
+
+        SharedPreferences.Editor editor = share.edit();
+        editor.putInt(PROGRESS_COGNITIVE, share.getInt(PROGRESS_COGNITIVE, 0) + duree);
+        editor.putLong(PROGRESS_TIME,result_time);
+        editor.apply();
+    }
+
+    //DATA
+    private void getHistory_all_Progress_cognitive (final ProgressBar pro2){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("UserActivitys").child(MainMyMenu.user.getIdUser()).child(today);
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                        int progn = 0;
+                        if (dataSnapshot.child("Progressions").exists()) {
+                            if (dataSnapshot.child("Progressions").child("Cognitive").exists())
+                                progn = dataSnapshot.child("Progressions").child("Cognitive").getValue(Integer.class);
+                        }
+                        //pro2.setProgress(pro2.getProgress()+progn);
+                        update_progress_cognitive_prepar(progn);
+                    }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+        //
+    }
+
+    //DIALOG
+    private void openDialog() {
+        ExplainPmodoroDialog dialog= new ExplainPmodoroDialog();
+        // dialog.setTargetFragment(HomeFragment.this,1);
+        dialog.show(requireActivity().getSupportFragmentManager(), "example dialog");
+    }
+
+    //ANIMATION
+    private void animate_progressbar (final ProgressBar p) {
+        final ObjectAnimator objectAnimator = ObjectAnimator.ofInt(p,"progress",0,p.getProgress());
+        objectAnimator.setDuration(1500);
+
+        objectAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                super.onAnimationCancel(animation);
+                p.setVisibility(View.GONE);
+            }
+        });
+
+        objectAnimator.start();
     }
 }

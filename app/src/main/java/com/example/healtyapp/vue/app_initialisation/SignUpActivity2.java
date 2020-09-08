@@ -15,9 +15,11 @@ import android.widget.Toast;
 import com.example.healtyapp.R;
 import com.example.healtyapp.module.BienEtre;
 import com.example.healtyapp.module.Birthday;
+import com.example.healtyapp.module.ObjectiveUser;
 import com.example.healtyapp.module.PreventionBurnOut;
 import com.example.healtyapp.module.Sport;
 import com.example.healtyapp.module.User;
+import com.example.healtyapp.vue.center_activities.MainMyMenu;
 import com.example.healtyapp.vue.sous_activities.SelectObjective;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,7 +42,7 @@ public class SignUpActivity2 extends AppCompatActivity {
     //
     TextInputLayout a,b,c,d,e,f;
     EditText first_name,last_name,username,email,password;
-    LinearLayout create;
+    LinearLayout create,back;
     Intent intent;
     User user;
     SharedPreferences userShare;
@@ -52,6 +54,16 @@ public class SignUpActivity2 extends AppCompatActivity {
         setContentView(R.layout.init_activity_sign_up2);
         intent = getIntent();
         userShare = getSharedPreferences("MyUser", MODE_PRIVATE);
+
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SelectObjective.created = false;
+                startActivity(new Intent(SignUpActivity2.this,SelectObjective.class));
+                finish();
+            }
+        });
 
 
         a = findViewById(R.id.signup_first_name);
@@ -86,11 +98,11 @@ public class SignUpActivity2 extends AppCompatActivity {
     }
 
     public boolean isValidate(){
-        if(/*validename(firstname) && */!first_name.getText().toString().isEmpty()){
-            if(/*validename(last_name)&&*/!last_name.getText().toString().isEmpty() ){
-                if(/*valideusername(username) && */!username.getText().toString().isEmpty()){
-                    if(/*validemail(mail) && */!email.getText().toString().isEmpty()){
-                        if(/*validepassword(password) && */!password.getText().toString().isEmpty() && password.getText().toString().length()>=8){
+        if(validename(first_name) && !first_name.getText().toString().isEmpty()){
+            if(validename(last_name)&&!last_name.getText().toString().isEmpty() ){
+                if(valideusername(username) && !username.getText().toString().isEmpty()){
+                    if(validemail(email) && !email.getText().toString().isEmpty()){
+                        if(validepassword(password) && !password.getText().toString().isEmpty() && password.getText().toString().length()>=8){
                                         return  true;
                         }else{
                                 Toast.makeText(getApplicationContext(),"Verfier Password",Toast.LENGTH_SHORT).show();
@@ -110,9 +122,54 @@ public class SignUpActivity2 extends AppCompatActivity {
         return false;
     }
 
-    public void CreateUser(){
-        getAllUserInformation();
-        CreatOnAuthSystem(user.getEmail(),user.getPassword());
+    boolean verifier_text (EditText t, int max) {
+        if (!t.getText().toString().isEmpty() && t.getText().toString().length() <= max)
+            return true;
+        return false;
+    }
+
+    boolean verifier_number (EditText t, int max_lenght,int max,int min) {
+        if (!t.getText().toString().isEmpty()
+                && t.getText().toString().length() <= max_lenght
+                && Integer.parseInt(t.getText().toString()) <= max
+                && Integer.parseInt(t.getText().toString()) >= min)
+            return true;
+        return false;
+    }
+
+    private boolean validename(EditText last_name) {
+        return verifier_text(last_name, 10);
+    }
+
+    private boolean valideusername(EditText username) {
+        return verifier_text(username, 10);
+    }
+
+    private boolean validemail(EditText email) {
+        /*String p = email.getText().toString();
+        String condition = "@gmail.com";
+        if (p.length()> (5 + condition.length()) && p.contains(condition))
+            return true;
+        return false;*/
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches();
+    }
+
+    private boolean validepassword(EditText password) {
+        String p = password.getText().toString();
+        if (p.length()>8 &&
+                (p.contains("0") ||
+                p.contains("1") ||
+                p.contains("2") ||
+                p.contains("3") ||
+                p.contains("4") ||
+                p.contains("5") ||
+                p.contains("6") ||
+                p.contains("7") ||
+                p.contains("8") ||
+                p.contains("9")    )
+        )
+            return true;
+        return false;
     }
 
     public void getAllUserInformation(){
@@ -160,9 +217,9 @@ public class SignUpActivity2 extends AppCompatActivity {
                 x.add(obj2);
                 break;
             case 13:
-               x.add(obj1);
-               x.add(obj3);
-               break;
+                x.add(obj1);
+                x.add(obj3);
+                break;
             case 23:
                 x.add(obj2);
                 x.add(obj3);
@@ -185,11 +242,20 @@ public class SignUpActivity2 extends AppCompatActivity {
 
     }
 
+    public void CreateUser(){
+        getAllUserInformation();
+        CreatOnAuthSystem(user.getEmail(),user.getPassword());
+    }
+
+    public  void CreateUserOnRealTimeBDD(FirebaseUser user1,User user){
+        user.setIdUser(user1.getUid());//
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("Users").child(user.getIdUser()).setValue(user);
+    }
+
     public void CreatOnAuthSystem(String mail,String password){
         myAuth = FirebaseAuth.getInstance();
-
         final String TAG = "Sign IN";
-
         myAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -199,42 +265,39 @@ public class SignUpActivity2 extends AppCompatActivity {
                             Log.d(TAG, "createUserWithEmail:success");
 
                             FirebaseUser user1= myAuth.getCurrentUser();
-
                             CreateUserOnRealTimeBDD(user1,user);
-
-
                             SharedPreferences.Editor editor= userShare.edit();
-
                             editor.putBoolean("Logged",true);
                             editor.putString("Email",user.getEmail());
                             editor.putString("Password",user.getPassword());
                             editor.commit();
                             editor.apply();
-
                             startActivity(new Intent(SignUpActivity2.this,MainWelcome.class));
-
                             finish();
-
-
                         } else {
-
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(SignUpActivity2.this, "Authentication échouer ",
                                     Toast.LENGTH_SHORT).show();
 
                         }
-
                         // ...
                     }
                 });
-
-
     }
 
-    public  void CreateUserOnRealTimeBDD(FirebaseUser user1,User user){
-        user.setIdUser(user1.getUid());//
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("Users").child(user.getIdUser()).setValue(user);
-        //Toast.makeText(getApplicationContext(),"user created with succed on realtime data base",Toast.LENGTH_SHORT).show();
+
+
+    private void put_obj(User user) {
+        for (int i = 0; i < user.getObjectifs().size(); i++) {
+            add_database_obj_detail(user.getObjectifs().get(i));
+        }
     }
+
+    //add objective
+    private void add_database_obj_detail(String titre) {
+        ObjectiveUser objective = new ObjectiveUser(titre);
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference().child("Objectif").child("ObjectiveUser").child(MainMyMenu.user.getIdUser()).child(titre);
+        data.setValue(objective);
+    }
+
 }

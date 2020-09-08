@@ -4,114 +4,80 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/layou1"
     tools:context=".ui.activityphysic.HistoryUserPh">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/layou1">
+    <androidx.cardview.widget.CardView
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-            android:orientation="vertical">
+        android:layout_margin="10dp"
+        android:backgroundTint="#003700B3"
+        android:visibility="visible"
+        app:cardCornerRadius="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:layout_width="match_parent"
+        <RelativeLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/c1c2">
+
+            <LinearLayout
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/nunito"
-                android:gravity="center"
-                android:text="Physical journal"
-                android:textColor="@color/white"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                android:clickable="true"
+                android:orientation="vertical"
+                android:padding="5dp">
 
-            <androidx.cardview.widget.CardView
+                <ImageView
+                    android:id="@+id/backbtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/abc_vector_test"
+                    app:tint="@color/grey"
+                    tools:ignore="VectorDrawableCompat" />
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="40dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="10dp">
 
-                <LinearLayout
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/nunito"
+                    android:gravity="center"
+                    android:text="Physical journal"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="5dp">
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nunito"
-                                android:text="Total Time : " />
-
-
-                            <TextView
-                                android:id="@+id/all_time"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:fontFamily="@font/nunito"
-                                android:text=" "
-                                android:textColor="@color/black"
-                                android:textSize="15sp" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp">
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/nunito"
-                                android:text="Total Burned : " />
-
-
-                            <TextView
-                                android:id="@+id/all_cal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:fontFamily="@font/nunito"
-                                android:text=" "
-                                android:textColor="@color/black"
-                                android:textSize="15sp" />
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@color/colorAccent">
-
-                    </RelativeLayout>
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="40dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -119,46 +85,121 @@
                         android:orientation="vertical">
 
                         <LinearLayout
-                            android:id="@+id/layout_noact"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:padding="20dp">
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:orientation="vertical">
 
-                            <ImageButton
-                                android:id="@+id/imageButton2"
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="#00FFFFFF"
-                                app:srcCompat="@drawable/ic_baseline_sentiment_dissatisfied_24"
-                                tools:ignore="VectorDrawableCompat" />
+                                android:layout_marginTop="5dp"
+                                android:layout_marginBottom="5dp">
 
-                            <TextView
-                                android:id="@+id/text_noact"
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/nunito"
+                                    android:text="Total Time : " />
+
+
+                                <TextView
+                                    android:id="@+id/all_time"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:fontFamily="@font/nunito"
+                                    android:text=" "
+                                    android:textColor="@color/black"
+                                    android:textSize="15sp" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="No activities"
-                                android:textSize="18sp" />
+                                android:layout_marginTop="5dp">
+
+                                <TextView
+
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/nunito"
+                                    android:text="Total Burned : " />
+
+
+                                <TextView
+                                    android:id="@+id/all_cal"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:fontFamily="@font/nunito"
+                                    android:text=" "
+                                    android:textColor="@color/black"
+                                    android:textSize="15sp" />
+
+                            </LinearLayout>
                         </LinearLayout>
 
-                        <ListView
-                            android:id="@+id/recent_history"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="2dp"
+                            android:background="@color/colorAccent">
+
+                        </RelativeLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginBottom="5dp" />
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/layout_noact"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:padding="20dp">
+
+                                <ImageButton
+                                    android:id="@+id/imageButton2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="#00FFFFFF"
+                                    app:srcCompat="@drawable/ic_baseline_sentiment_dissatisfied_24"
+                                    tools:ignore="VectorDrawableCompat" />
+
+                                <TextView
+                                    android:id="@+id/text_noact"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="No activities"
+                                    android:textSize="18sp" />
+                            </LinearLayout>
+
+                            <ListView
+                                android:id="@+id/recent_history"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginBottom="5dp" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
-                </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-            </androidx.cardview.widget.CardView>
-
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

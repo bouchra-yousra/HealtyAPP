@@ -17,12 +17,12 @@ public class Test extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
-        textInputEmail = findViewById(R.id.text_input_email);
+        setContentView(R.layout.sous_activity_no_internet);
+       /* textInputEmail = findViewById(R.id.text_input_email);
         textInputUsername = findViewById(R.id.text_input_username);
-        textInputPassword = findViewById(R.id.text_input_password);
+        textInputPassword = findViewById(R.id.text_input_password);*/
     }
-
+        /*
     private boolean validateEmail() {
         String emailInput = textInputEmail.getEditText().getText().toString().trim();
 
@@ -75,5 +75,5 @@ public class Test extends AppCompatActivity {
 
         Toast.makeText(this, input, Toast.LENGTH_SHORT).show();
     }
-
+*/
 }

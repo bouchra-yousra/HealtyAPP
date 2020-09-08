@@ -29,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class SelectObjective extends AppCompatActivity {
-    LinearLayout bienetre, prevention, sport;
+    LinearLayout bienetre, prevention, sport,back;
     Button next;
 
     Intent intent;
@@ -60,6 +60,15 @@ public class SelectObjective extends AppCompatActivity {
         prevention = findViewById(R.id.prevenu);
         sport = findViewById(R.id.sport);
         next = findViewById(R.id.setgoal);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!created)
+                    startActivity(new Intent(SelectObjective.this,MainUserChooseActivityLevel.class));
+                finish();
+            }
+        });
 
         //created means the user exist (false: means we're in authentification | true: means the user want to change his objs)
 

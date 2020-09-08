@@ -44,8 +44,7 @@ public class HistoryUserPh extends AppCompatActivity {
     DatabaseReference databaseReference;
 
     //no activity
-    LinearLayout laynoact;
-
+    LinearLayout laynoact,back;
 
     //drawble
     final int color1 = R.drawable.custom_button1;
@@ -56,6 +55,14 @@ public class HistoryUserPh extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.historique_physique);
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
 
         laynoact = findViewById(R.id.layout_noact);
 
@@ -63,6 +70,7 @@ public class HistoryUserPh extends AppCompatActivity {
         all_time = findViewById(R.id.all_time);
         listView = findViewById(R.id.recent_history);
 
+        methodexX();
         getHistory();
 
     }
@@ -75,7 +83,7 @@ public class HistoryUserPh extends AppCompatActivity {
             y+=activityPhUsers.get(i).getDuree();
         }
 
-        all_cal.setText(String.valueOf(x)+ "Cal");
+        all_cal.setText(String.valueOf(x)+ "kCal");
         all_time.setText(String.valueOf(y)+" Min");
     }
 

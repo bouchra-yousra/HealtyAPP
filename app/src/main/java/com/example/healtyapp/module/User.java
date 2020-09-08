@@ -30,23 +30,6 @@ public class User {
     private double besoin_eau;
     //private String birthday_;
 
-    /*public String getBirthday_() {
-        return birthday_;
-    }*/
-
-    public void setBirthday_(String birthday_) {
-        this.age = birthday_;
-    }
-
-    public void setBirthday_(Calendar c) {
-        Birthday b = new Birthday(c);
-        this.setBirthday_(b.getDay()+";"+b.getMonth()+";"+b.getYear()+";");
-    }
-
-    public void setBirthday_(Birthday b) {
-        this.setBirthday_(b.getDay()+";"+b.getMonth()+";"+b.getYear()+";");
-    }
-
 /* private ArrayList<String> birthday ;
 
     public ArrayList<Integer> getBirthday() {
@@ -65,6 +48,44 @@ public class User {
         this.birthday.add(String.valueOf(birthday.year));
     }*/
     public User(){
+    }
+
+
+    //BESOIN MACRON
+    public double calcul_besoin_protine () {
+        //30% de besoin energitique , 4 puisqu'on a 4 cal dans 1g
+        return  ((this.besoin_energy * 30) / 100) / 4;
+    }
+
+    public double calcul_besoin_glucide () {
+        //40% de besoin energitique , 4 puisqu'on a 4 cal dans 1g
+        return  ((this.besoin_energy * 40) / 100) / 4;
+    }
+
+    public double calcul_besoin_lipide () {
+        //30% de besoin energitique , 9 puisqu'on a 4 cal dans 1g
+        return  ((this.besoin_energy * 30) / 100) / 9;
+    }
+
+    private double Calculermetabolisme(){
+
+        if(this.sexe.equals(gender.HOMME)){
+
+
+            return (13.7516*Double.parseDouble(this.poids))+
+                    (500.33*convertToMeter(Double.parseDouble(this.taille)))-
+                    (6.7550*Integer.parseInt(this.age))+66.473;
+        }else{
+            return (9.5634*Double.parseDouble(this.poids))+
+                    (184.96*convertToMeter(Double.parseDouble(this.taille)))-
+                    (4.6756*Integer.parseInt(this.age))+655.0955;
+        }
+
+
+    }
+
+    private double convertToMeter(double taille_cm){
+        return  taille_cm/100.;
     }
 
     private ArrayList<Integer> divise_Birthday (String word){
@@ -97,13 +118,21 @@ public class User {
         return  new Birthday(arrayList.get(0),arrayList.get(1),arrayList.get(3));
     }
 
-    public int getAgeFromBirthday (Birthday b) {
-        return b.calculate_age();
+        /*public String getBirthday_() {
+        return birthday_;
+    }*/
+
+    public void setBirthday_(String birthday_) {
+        this.age = birthday_;
     }
 
+    public void setBirthday_(Calendar c) {
+        Birthday b = new Birthday(c);
+        this.setBirthday_(b.getDay()+";"+b.getMonth()+";"+b.getYear()+";");
+    }
 
-    public void setMetabolisme(double metabolisme) {
-        this.metabolisme = metabolisme;
+    public void setBirthday_(Birthday b) {
+        this.setBirthday_(b.getDay()+";"+b.getMonth()+";"+b.getYear()+";");
     }
 
     //GETTERS
@@ -115,127 +144,62 @@ public class User {
         return first_name;
     }
 
-    //SETTERS
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
-    }
-
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-
     public String getLast_name() {
         return last_name;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-
-
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-
     public String getTaille() {
         return taille;
-    }
-
-    public void setTaille(String taille) {
-        this.taille = taille;
     }
 
     public String getPoids() {
         return poids;
     }
 
-    public void setPoids(String poids) {
-        this.poids = poids;
-    }
-
     public String getSexe() {
         return sexe;
     }
 
-    public void setSexe(String sexe) {
-        this.sexe = sexe;
+    public double getBesoin_energy() {
+        return besoin_energy;
     }
 
-    public ArrayList<String> getObjectifs() {
-        return objectifs;
+    public double getBesoin_eau() {
+        return besoin_eau;
     }
 
-    public void setObjectifs(ArrayList<String> objectifs) {
-        this.objectifs = objectifs;
-    }
-
-    public String getMaladie() {
-        return maladie;
-    }
-
-    public void setMaladie(String maladie) {
-        this.maladie = maladie;
-    }
 
     public String getLevel() {
         return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
     }
 
     public Double getMetabolisme() {
         return metabolisme;
     }
 
-    public void setMetabolisme() {
-
-        this.metabolisme = Calculermetabolisme();
+    public ArrayList<String> getObjectifs() {
+        return objectifs;
     }
 
-    private double Calculermetabolisme(){
-
-        if(this.sexe.equals(gender.HOMME)){
-
-
-            return (13.7516*Double.parseDouble(this.poids))+
-                    (500.33*convertToMeter(Double.parseDouble(this.taille)))-//c un moin
-                    (6.7550*Integer.parseInt(this.age))+66.473;
-        }else{
-            return (9.5634*Double.parseDouble(this.poids))+
-                    (184.96*convertToMeter(Double.parseDouble(this.taille)))-
-                    (4.6756*Integer.parseInt(this.age))+655.0955;
-        }
-
-
+    public String getMaladie() {
+        return maladie;
     }
 
-    private double convertToMeter(double taille_cm){
-        return  taille_cm/100.;
+
+    public int getAgeFromBirthday (Birthday b) {
+        return b.calculate_age();
     }
 
     public String getAge_() {
@@ -249,12 +213,68 @@ public class User {
         return age;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+
+
+    //SETTERS
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
-    public double getBesoin_energy() {
-        return besoin_energy;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+     public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setTaille(String taille) {
+        this.taille = taille;
+    }
+
+    public void setPoids(String poids) {
+        this.poids = poids;
+    }
+
+    public void setSexe(String sexe) {
+        this.sexe = sexe;
+    }
+
+    public void setMetabolisme(double metabolisme) {
+        this.metabolisme = metabolisme;
+    }
+
+    public void setMetabolisme() {
+
+        this.metabolisme = Calculermetabolisme();
+    }
+
+    public void setObjectifs(ArrayList<String> objectifs) {
+        this.objectifs = objectifs;
+    }
+
+    public void setMaladie(String maladie) {
+        this.maladie = maladie;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
 
     public void setBesoin_energy() {
@@ -274,11 +294,8 @@ public class User {
         }
     }
 
-    public double getBesoin_eau() {
-        return besoin_eau;
-    }
-
     public void setBesoin_eau() {
         this.besoin_eau = (double)(((Integer.parseInt(this.poids)-20)*15)+1500);
     }
+
 }

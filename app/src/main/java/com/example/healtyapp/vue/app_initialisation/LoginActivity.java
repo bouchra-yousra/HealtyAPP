@@ -98,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void Login(final String mail, final String password){
-
         final String TAG = "SIGN IN";
         myAuth = FirebaseAuth.getInstance();
 
@@ -107,18 +106,13 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-
                             FirebaseUser user1 = myAuth.getCurrentUser();
-
                             SharedPreferences.Editor editor= userShare.edit();
-
                             editor.putBoolean("Logged",true);
                             editor.putString("Email",mail);
                             editor.putString("Password",password);
-
                             editor.commit();
                             editor.apply();
                             MainActivity.getCurrnentUser(mail);
@@ -130,12 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-
-
                         }
-
-                        // ...
-
                     }
                 });
 

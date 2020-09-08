@@ -11,11 +11,12 @@ import android.widget.LinearLayout;
 
 import com.example.healtyapp.R;
 import com.example.healtyapp.module.Birthday;
+import com.example.healtyapp.vue.app_initialisation.SignUpActivity;
 import com.example.healtyapp.vue.app_initialisation.SignUpActivity2;
 
 public class MainUserChooseActivityLevel extends AppCompatActivity {
     Intent intent ;
-    LinearLayout level0,level1,level2,level3;
+    LinearLayout level0,level1,level2,level3,back;
     String height,weight,sexe,maladie;
     int number;
     Birthday bday;
@@ -26,6 +27,14 @@ public class MainUserChooseActivityLevel extends AppCompatActivity {
         setContentView(R.layout.sous_activity_user_choose_level);
 
         intent = getIntent();
+        back = findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainUserChooseActivityLevel.this, SignUpActivity.class));
+                finish();
+            }
+        });
 
         level0 = findViewById(R.id.level0);
         level1 = findViewById(R.id.level1);
