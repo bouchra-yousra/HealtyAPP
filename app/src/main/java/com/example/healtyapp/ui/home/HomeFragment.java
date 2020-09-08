@@ -593,24 +593,36 @@ public class HomeFragment extends Fragment implements ExampleDialog.ExampleDialo
         getRecList_home(size);
         for (int i = 0; i < size ; i++) {
             if (arrayListhome != null && i < arrayListhome.size()){
-                linearLayouts.get(i).setVisibility(View.VISIBLE);
-                rec_home.setVisibility(View.VISIBLE);
-                rec_eco_titre.get(i).setText(arrayListhome.get(i).getTitle());
-                rec_eco_cal.get(i).setText(String.valueOf((int) HowMuchCaloriesBurnExo(arrayListhome.get(i), (double) CalculTimeExoRec (arrayListhome.get(i)))) + " cal");
-                rec_eco_duree.get(i).setText(String.valueOf((double) CalculTimeExoRec (arrayListhome.get(i)))+" min");
-                final int finalI = i;
-                linearLayouts.get(i).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                       // TestInflate testInflate = new TestInflate();
-                       // TestInflate.exercicePhysique = (ExercicePhysique) arrayList.get(finalI);
-                       // testInflate.show(getActivity().getSupportFragmentManager(), "Test dialog");
-                        MainChrono.exercicePhysique = arrayListhome.get(finalI);
-                        Intent intent = new Intent(getActivity(),MainChrono.class);
-                        intent.putExtra("Time",(double) CalculTimeExoRec (arrayListhome.get(finalI)));
-                        startActivity(intent);
+                if (arrayListhome.get(i) != null ) {
+                    rec_eco_titre.get(i).setText(arrayListhome.get(i).getTitle());
+                    rec_eco_cal.get(i).setText(String.valueOf((int) HowMuchCaloriesBurnExo(arrayListhome.get(i), (double) CalculTimeExoRec (arrayListhome.get(i)))) + " cal");
+                    rec_eco_duree.get(i).setText(String.valueOf((double) CalculTimeExoRec (arrayListhome.get(i)))+" min");
+                    final int finalI = i;
+                    linearLayouts.get(i).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // TestInflate testInflate = new TestInflate();
+                            // TestInflate.exercicePhysique = (ExercicePhysique) arrayList.get(finalI);
+                            // testInflate.show(getActivity().getSupportFragmentManager(), "Test dialog");
+                            MainChrono.exercicePhysique = arrayListhome.get(finalI);
+                            Intent intent = new Intent(getActivity(),MainChrono.class);
+                            intent.putExtra("Time",(double) CalculTimeExoRec (arrayListhome.get(finalI)));
+                            startActivity(intent);
+                        }
+                    });
+
+                    if (rec_eco_titre.get(i).getText().toString().equals("Jamping jaks")){
+                        linearLayouts.get(i).setVisibility(View.VISIBLE);
+                        rec_home.setVisibility(View.VISIBLE);
+                    } else {
+                        linearLayouts.get(i).setVisibility(View.GONE);
+                        rec_home.setVisibility(View.GONE);
                     }
-                });
+                }else   {
+                    linearLayouts.get(i).setVisibility(View.GONE);
+                    rec_home.setVisibility(View.GONE);
+                }
+
             }
             else{
                 rec_home.setVisibility(View.GONE);
